@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Odoo Consultant & Web Developer</title>
+  <title>Aaqib Bajwa — Odoo Consultant & Web Developer</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
-
   <style>
     :root {
       --black: #0a0a0a;
@@ -15,13 +14,9 @@
       --gray-soft: #e8e6e1;
       --gray-mid: #999690;
       --gray-dark: #2a2a2a;
-      --accent: #1a1a1a;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
-
     body {
       background-color: var(--black);
       color: var(--white);
@@ -29,8 +24,6 @@
       font-weight: 300;
       overflow-x: hidden;
     }
-
-    /* ── NOISE TEXTURE OVERLAY ── */
     body::before {
       content: '';
       position: fixed;
@@ -41,589 +34,352 @@
       opacity: 0.5;
     }
 
-    /* ── NAV ── */
+    /* NAV */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
+      position: fixed; top: 0; left: 0; right: 0;
       z-index: 100;
       padding: 1.4rem 2.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
       border-bottom: 1px solid rgba(255,255,255,0.06);
       background: rgba(10,10,10,0.88);
       backdrop-filter: blur(12px);
     }
-
     .nav-logo {
       font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gray-mid);
+      font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gray-mid); text-decoration: none;
     }
-
     .nav-links a {
       font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gray-mid);
-      text-decoration: none;
-      margin-left: 2rem;
-      transition: color 0.2s;
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gray-mid); text-decoration: none;
+      margin-left: 2rem; transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--white); }
 
-    /* ── HERO ── */
+    /* HERO */
     #hero {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
+      display: flex; flex-direction: column; justify-content: flex-end;
       padding: 0 2.5rem 5rem;
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
-
     .hero-bg-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
+      position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       font-family: 'Playfair Display', serif;
-      font-size: clamp(8rem, 18vw, 22rem);
-      font-weight: 900;
+      font-size: clamp(8rem, 18vw, 22rem); font-weight: 900;
       color: transparent;
       -webkit-text-stroke: 1px rgba(255,255,255,0.04);
-      white-space: nowrap;
-      pointer-events: none;
-      user-select: none;
+      white-space: nowrap; pointer-events: none; user-select: none;
       letter-spacing: -0.03em;
     }
-
     .hero-tag {
       font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gray-mid);
-      margin-bottom: 1.2rem;
-      animation: fadeUp 0.8s ease both;
-      animation-delay: 0.2s;
+      font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gray-mid); margin-bottom: 1.2rem;
+      animation: fadeUp 0.8s ease both; animation-delay: 0.2s;
     }
-
     .hero-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 7vw, 7rem);
-      font-weight: 900;
-      line-height: 1.0;
-      letter-spacing: -0.03em;
-      color: var(--white);
-      animation: fadeUp 0.9s ease both;
-      animation-delay: 0.35s;
+      font-size: clamp(3rem, 7vw, 7rem); font-weight: 900;
+      line-height: 1.0; letter-spacing: -0.03em; color: var(--white);
+      animation: fadeUp 0.9s ease both; animation-delay: 0.35s;
     }
-
-    .hero-title em {
-      font-style: italic;
-      color: var(--gray-mid);
-    }
-
+    .hero-title em { font-style: italic; color: var(--gray-mid); }
     .hero-sub {
-      max-width: 480px;
-      font-size: 0.95rem;
-      font-weight: 300;
-      line-height: 1.7;
-      color: var(--gray-mid);
-      margin-top: 1.8rem;
-      animation: fadeUp 1s ease both;
-      animation-delay: 0.5s;
+      max-width: 500px; font-size: 0.95rem; font-weight: 300;
+      line-height: 1.75; color: var(--gray-mid); margin-top: 1.8rem;
+      animation: fadeUp 1s ease both; animation-delay: 0.5s;
     }
-
     .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.7rem;
-      margin-top: 2.5rem;
-      padding: 0.85rem 2rem;
-      border: 1px solid rgba(255,255,255,0.2);
-      color: var(--white);
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      margin-top: 2.5rem; padding: 0.85rem 2rem;
+      border: 1px solid rgba(255,255,255,0.2); color: var(--white);
       font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: background 0.25s, border-color 0.25s;
-      animation: fadeUp 1.1s ease both;
-      animation-delay: 0.65s;
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      text-decoration: none; transition: background 0.25s, border-color 0.25s;
+      animation: fadeUp 1.1s ease both; animation-delay: 0.65s;
     }
-    .hero-cta:hover {
-      background: var(--white);
-      color: var(--black);
-      border-color: var(--white);
-    }
-
+    .hero-cta:hover { background: var(--white); color: var(--black); border-color: var(--white); }
     .hero-scroll {
-      position: absolute;
-      bottom: 2.5rem;
-      right: 2.5rem;
+      position: absolute; bottom: 2.5rem; right: 2.5rem;
       font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gray-mid);
-      writing-mode: vertical-rl;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      animation: fadeUp 1.2s ease both;
-      animation-delay: 0.8s;
+      font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gray-mid); writing-mode: vertical-rl;
+      display: flex; align-items: center; gap: 0.6rem;
     }
     .hero-scroll::after {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 60px;
+      content: ''; display: block; width: 1px; height: 60px;
       background: var(--gray-mid);
-      animation: lineGrow 1.5s ease both;
-      animation-delay: 1s;
     }
 
-    /* ── SECTION BASE ── */
-    section {
-      position: relative;
-      z-index: 1;
-    }
-
+    /* SECTIONS */
+    section { position: relative; z-index: 1; }
     .section-label {
       font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gray-mid);
-      margin-bottom: 3rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+      font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gray-mid); margin-bottom: 3rem;
+      display: flex; align-items: center; gap: 1rem;
     }
     .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
+      content: ''; flex: 1; height: 1px;
       background: rgba(255,255,255,0.1);
     }
 
-    /* ── ABOUT ── */
-    #about {
-      padding: 8rem 2.5rem;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
+    /* ABOUT */
+    #about { padding: 8rem 2.5rem; border-top: 1px solid rgba(255,255,255,0.06); }
     .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.4fr;
-      gap: 5rem;
-      align-items: start;
+      display: grid; grid-template-columns: 1fr 1.4fr;
+      gap: 5rem; align-items: start;
     }
-
     .about-headline {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3.5rem);
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
+      font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700;
+      line-height: 1.15; letter-spacing: -0.02em;
     }
-
-    .about-headline em {
-      font-style: italic;
-      color: var(--gray-mid);
-    }
-
+    .about-headline em { font-style: italic; color: var(--gray-mid); }
     .about-body p {
-      font-size: 0.95rem;
-      line-height: 1.85;
-      color: var(--gray-soft);
-      margin-bottom: 1.2rem;
+      font-size: 0.95rem; line-height: 1.85;
+      color: var(--gray-soft); margin-bottom: 1.2rem;
     }
-
     .stat-row {
-      display: flex;
-      gap: 3rem;
-      margin-top: 3rem;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex; gap: 3rem; margin-top: 3rem;
+      padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);
     }
-
     .stat-item span:first-child {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.8rem;
-      font-weight: 900;
-      display: block;
-      line-height: 1;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem; display: block; line-height: 1.4;
+      color: var(--white);
     }
-
     .stat-item span:last-child {
       font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gray-mid);
-      margin-top: 0.3rem;
-      display: block;
+      font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gray-mid); margin-top: 0.3rem; display: block;
     }
 
-    /* ── SERVICES ── */
+    /* SERVICES */
     #services {
-      padding: 8rem 2.5rem;
-      background: var(--gray-dark);
+      padding: 8rem 2.5rem; background: var(--gray-dark);
       border-top: 1px solid rgba(255,255,255,0.06);
     }
-
-    .services-heading {
+    .section-heading {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 700;
-      margin-bottom: 4rem;
-      letter-spacing: -0.02em;
+      font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700;
+      margin-bottom: 4rem; letter-spacing: -0.02em;
     }
-
     .service-card {
       border-top: 1px solid rgba(255,255,255,0.12);
       padding: 2rem 0;
-      display: grid;
-      grid-template-columns: 0.5fr 2fr 1fr;
-      gap: 2rem;
-      align-items: start;
-      transition: background 0.25s;
-      cursor: default;
+      display: grid; grid-template-columns: 0.5fr 2fr 1fr;
+      gap: 2rem; align-items: start;
+      transition: all 0.25s; cursor: default;
     }
-
     .service-card:hover {
       background: rgba(255,255,255,0.03);
-      padding-left: 1rem;
-      padding-right: 1rem;
-      margin-left: -1rem;
-      margin-right: -1rem;
+      padding-left: 1rem; padding-right: 1rem;
+      margin-left: -1rem; margin-right: -1rem;
     }
-
     .service-num {
       font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--gray-mid);
-      letter-spacing: 0.1em;
-      padding-top: 0.15rem;
+      font-size: 0.65rem; color: var(--gray-mid);
+      letter-spacing: 0.1em; padding-top: 0.15rem;
     }
-
     .service-title {
       font-family: 'Playfair Display', serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 0.6rem;
+      font-size: 1.4rem; font-weight: 700; margin-bottom: 0.6rem;
     }
-
-    .service-desc {
-      font-size: 0.88rem;
-      line-height: 1.7;
-      color: var(--gray-mid);
-    }
-
-    .service-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      justify-content: flex-end;
-    }
-
+    .service-desc { font-size: 0.88rem; line-height: 1.7; color: var(--gray-mid); }
+    .service-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: flex-end; }
     .tag {
       font-family: 'DM Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.7rem;
-      border: 1px solid rgba(255,255,255,0.15);
+      font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.3rem 0.7rem; border: 1px solid rgba(255,255,255,0.15);
       color: var(--gray-mid);
     }
 
-    /* ── SKILLS ── */
-    #skills {
-      padding: 8rem 2.5rem;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .skills-heading {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 700;
-      margin-bottom: 4rem;
-      letter-spacing: -0.02em;
-    }
-
+    /* SKILLS */
+    #skills { padding: 8rem 2.5rem; border-top: 1px solid rgba(255,255,255,0.06); }
     .skill-bar-row {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      margin-bottom: 1.4rem;
+      display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.4rem;
     }
-
     .skill-name {
       font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gray-soft);
-      min-width: 160px;
+      font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gray-soft); min-width: 160px;
     }
-
     .skill-track {
-      flex: 1;
-      height: 1px;
-      background: rgba(255,255,255,0.1);
-      position: relative;
+      flex: 1; height: 1px; background: rgba(255,255,255,0.1); position: relative;
     }
-
     .skill-fill {
-      position: absolute;
-      top: 0; left: 0;
-      height: 1px;
+      position: absolute; top: 0; left: 0; height: 1px;
       background: var(--white);
-      transition: width 1.5s cubic-bezier(0.19, 1, 0.22, 1);
-      width: 0;
+      transition: width 1.5s cubic-bezier(0.19, 1, 0.22, 1); width: 0;
     }
-
     .skill-pct {
       font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      color: var(--gray-mid);
-      min-width: 36px;
-      text-align: right;
+      font-size: 0.6rem; color: var(--gray-mid); min-width: 36px; text-align: right;
     }
 
-    /* ── PORTFOLIO ── */
+    /* PORTFOLIO */
     #portfolio {
-      padding: 8rem 2.5rem;
-      background: var(--gray-dark);
+      padding: 8rem 2.5rem; background: var(--gray-dark);
       border-top: 1px solid rgba(255,255,255,0.06);
     }
-
-    .portfolio-heading {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 700;
-      margin-bottom: 4rem;
-      letter-spacing: -0.02em;
-    }
-
     .project-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: rgba(255,255,255,0.08);
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: rgba(255,255,255,0.08);
     }
-
     .project-card {
-      background: var(--gray-dark);
-      padding: 2.5rem;
-      transition: background 0.25s;
+      background: var(--gray-dark); padding: 2.5rem; transition: background 0.25s;
     }
-
     .project-card:hover { background: #333; }
-
     .project-type {
       font-family: 'DM Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gray-mid);
-      margin-bottom: 1.2rem;
+      font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gray-mid); margin-bottom: 1.2rem;
     }
-
     .project-name {
       font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 0.8rem;
+      font-size: 1.3rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.8rem;
     }
+    .project-desc { font-size: 0.82rem; line-height: 1.65; color: var(--gray-mid); }
 
-    .project-desc {
-      font-size: 0.82rem;
-      line-height: 1.65;
-      color: var(--gray-mid);
+    /* BLOG TEASER */
+    #blog {
+      padding: 8rem 2.5rem; border-top: 1px solid rgba(255,255,255,0.06);
     }
+    .blog-teaser-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: rgba(255,255,255,0.08);
+    }
+    .blog-teaser-card {
+      background: var(--black); padding: 2.5rem;
+      text-decoration: none; display: block; transition: background 0.25s;
+    }
+    .blog-teaser-card:hover { background: #141414; }
+    .btc-cat {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.52rem; letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--gray-mid); margin-bottom: 1.1rem; display: block;
+    }
+    .btc-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 700; line-height: 1.3;
+      color: var(--white); margin-bottom: 0.8rem; display: block;
+    }
+    .btc-excerpt {
+      font-size: 0.82rem; line-height: 1.65; color: var(--gray-mid); display: block;
+    }
+    .btc-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.52rem; letter-spacing: 0.12em; color: var(--gray-mid);
+      display: block; margin-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.07); padding-top: 1rem;
+    }
+    .blog-all-link {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gray-mid); text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      padding-bottom: 0.2rem; transition: color 0.2s;
+    }
+    .blog-all-link:hover { color: var(--white); }
 
-    /* ── CONTACT ── */
+    /* CONTACT */
     #contact {
-      padding: 8rem 2.5rem;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      align-items: start;
+      padding: 8rem 2.5rem; border-top: 1px solid rgba(255,255,255,0.06);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;
     }
-
     .contact-heading {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 5vw, 5rem);
-      font-weight: 900;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
+      font-size: clamp(2.5rem, 5vw, 5rem); font-weight: 900;
+      line-height: 1.05; letter-spacing: -0.03em;
     }
-
-    .contact-heading em {
-      font-style: italic;
-      color: var(--gray-mid);
-    }
-
-    .contact-form .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .contact-form label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gray-mid);
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-
-    .contact-form input,
-    .contact-form textarea {
-      width: 100%;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-      color: var(--white);
-      font-family: 'Instrument Sans', sans-serif;
-      font-size: 0.95rem;
-      padding: 0.6rem 0;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .contact-form input:focus,
-    .contact-form textarea:focus {
-      border-bottom-color: var(--white);
-    }
-
-    .contact-form textarea { resize: none; height: 100px; }
-
-    .contact-form button {
-      margin-top: 1rem;
-      padding: 0.9rem 2.5rem;
-      background: var(--white);
-      color: var(--black);
-      border: none;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.25s, color 0.25s;
-    }
-
-    .contact-form button:hover {
-      background: var(--gray-mid);
-    }
-
-    .contact-info {
-      padding-top: 1rem;
-    }
-
-    .contact-info p {
-      font-size: 0.88rem;
-      color: var(--gray-mid);
-      line-height: 1.7;
-      margin-bottom: 2rem;
-    }
-
+    .contact-heading em { font-style: italic; color: var(--gray-mid); }
+    .contact-info p { font-size: 0.88rem; color: var(--gray-mid); line-height: 1.7; margin-bottom: 2rem; }
     .contact-link {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      text-decoration: none;
-      color: var(--white);
+      display: flex; align-items: center; gap: 1rem;
+      text-decoration: none; color: var(--white);
       font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
+      font-size: 0.7rem; letter-spacing: 0.1em;
       border-bottom: 1px solid rgba(255,255,255,0.08);
-      padding: 1rem 0;
-      transition: color 0.2s;
+      padding: 1rem 0; transition: color 0.2s;
     }
-
     .contact-link:hover { color: var(--gray-mid); }
     .contact-link i { color: var(--gray-mid); font-size: 1rem; }
-
-    /* ── FOOTER ── */
-    footer {
-      padding: 2rem 2.5rem;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .contact-form .form-group { margin-bottom: 1.5rem; }
+    .contact-form label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gray-mid); display: block; margin-bottom: 0.5rem;
     }
+    .contact-form input, .contact-form textarea {
+      width: 100%; background: transparent;
+      border: none; border-bottom: 1px solid rgba(255,255,255,0.15);
+      color: var(--white); font-family: 'Instrument Sans', sans-serif;
+      font-size: 0.95rem; padding: 0.6rem 0; outline: none; transition: border-color 0.2s;
+    }
+    .contact-form input:focus, .contact-form textarea:focus { border-bottom-color: var(--white); }
+    .contact-form textarea { resize: none; height: 100px; }
+    .contact-form button {
+      margin-top: 1rem; padding: 0.9rem 2.5rem;
+      background: var(--white); color: var(--black); border: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.25s;
+    }
+    .contact-form button:hover { background: var(--gray-mid); }
 
+    /* FOOTER */
+    footer {
+      padding: 2rem 2.5rem; border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; justify-content: space-between; align-items: center;
+      position: relative; z-index: 1;
+    }
     footer p {
       font-family: 'DM Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
+      font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
       color: var(--gray-mid);
     }
 
-    /* ── ANIMATIONS ── */
+    /* ANIMATIONS */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
-    @keyframes lineGrow {
-      from { height: 0; }
-      to   { height: 60px; }
-    }
-
     .reveal {
-      opacity: 0;
-      transform: translateY(30px);
+      opacity: 0; transform: translateY(30px);
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
+    .reveal.visible { opacity: 1; transform: none; }
 
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    /* ── RESPONSIVE ── */
+    /* RESPONSIVE */
     @media (max-width: 768px) {
       nav { padding: 1.2rem 1.5rem; }
       .nav-links { display: none; }
       #hero { padding: 0 1.5rem 4rem; }
       .hero-bg-text { font-size: 5rem; }
-
-      .about-grid,
-      #contact { grid-template-columns: 1fr; gap: 3rem; }
-
+      .about-grid, #contact { grid-template-columns: 1fr; gap: 3rem; }
       .service-card { grid-template-columns: auto 1fr; }
       .service-tags { display: none; }
-
-      .project-grid { grid-template-columns: 1fr; }
-
-      #about, #services, #skills, #portfolio { padding: 5rem 1.5rem; }
-      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; }
+      .project-grid, .blog-teaser-grid { grid-template-columns: 1fr; }
+      #about, #services, #skills, #portfolio, #blog { padding: 5rem 1.5rem; }
+      footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <span class="nav-logo">Aaqib Bajwa</span>
+  <a href="index.html" class="nav-logo">Aaqib Bajwa</a>
   <div class="nav-links">
     <a href="#about">About</a>
     <a href="#services">Services</a>
     <a href="#skills">Skills</a>
     <a href="#portfolio">Work</a>
+    <a href="#blog">Blog</a>
     <a href="#contact">Contact</a>
   </div>
 </nav>
@@ -637,11 +393,9 @@
     <em>Web Craftsman.</em>
   </h1>
   <p class="hero-sub">
-    Odoo Techno-Functional Consultant & Web Developer with expertise in end-to-end Odoo ERP implementation, business process analysis, customization, integration, and user training. Specialized in Manufacturing, Inventory, HR, Payroll, Sales, Purchase, and Accounting workflows. Experienced in Python-based automation, custom module development, reporting, and workflow optimization. Also delivering professional websites and e-commerce solutions using WordPress, Shopify, and custom Bootstrap development.
+    Odoo Techno-Functional Consultant & Web Developer — specialising in ERP implementation, custom Python automation, Manufacturing, HR & Payroll, Sales, CRM, and full-service website delivery across WordPress, Shopify, and custom Bootstrap builds.
   </p>
-  <a href="#contact" class="hero-cta">
-    Start a Project <i class="bi bi-arrow-right"></i>
-  </a>
+  <a href="#contact" class="hero-cta">Start a Project <i class="bi bi-arrow-right"></i></a>
   <span class="hero-scroll">Scroll</span>
 </section>
 
@@ -650,33 +404,27 @@
   <div class="section-label">01 — About</div>
   <div class="about-grid">
     <div>
-      <h2 class="about-headline">
-        Where Business Meets <em>Technical Precision</em>
-      </h2>
+      <h2 class="about-headline">Where Business Meets <em>Technical Precision</em></h2>
       <div class="stat-row">
         <div class="stat-item">
-          <span style="font-size:1rem; font-family:'DM Mono',monospace; letter-spacing:0.05em;">Currently</span>
+          <span>Currently</span>
           <span>Odoo Consultant</span>
         </div>
         <div class="stat-item">
-          <span style="font-size:1rem; font-family:'DM Mono',monospace; letter-spacing:0.05em;">Based in</span>
+          <span>Based in</span>
           <span>U.A.E</span>
+        </div>
+        <div class="stat-item">
+          <span>B.I.T</span>
+          <span>Qualification</span>
         </div>
       </div>
     </div>
     <div class="about-body">
-      <p>
-        I'm an Odoo Techno-Functional Consultant with hands-on expertise across the full Odoo ecosystem — from business requirements gathering and module configuration to custom Python development, and system automation.
-      </p>
-      <p>
-        Currently working at <strong style="color:var(--white);">Ard Perfumes Factory LLC</strong> in the United Arab Emirates, delivering ERP solutions across HR, Manufacturing, Inventory, Purchase, Quality, Sale and Custom Reporting.
-      </p>
-      <p>
-        Alongside my ERP work, I design and build professional websites — clean, fast, and results-focused. From WordPress and Shopify stores to custom Bootstrap themes, hosting setup, and domain email configuration — I handle the full stack.
-      </p>
-      <p>
-        My approach is simple: understand the business problem first, then apply the right technical solution. No over-engineering. No unnecessary complexity. Just clean, maintainable work that scales.
-      </p>
+      <p>I'm an Odoo Techno-Functional Consultant with hands-on expertise across the full Odoo ecosystem — from business requirements gathering and module configuration to custom Python development and system automation.</p>
+      <p>Currently working at <strong style="color:var(--white);">Ard Perfumes Factory LLC</strong> in the United Arab Emirates, delivering ERP solutions across HR, Manufacturing, Inventory, Purchase, Quality, Sales, and Custom Reporting.</p>
+      <p>Alongside ERP work, I design and build professional websites — WordPress, WooCommerce, Shopify stores, and custom Bootstrap themes. Full-service delivery including hosting configuration, domain management, and business email setup.</p>
+      <p>My approach: understand the business problem first, then apply the right technical solution. Clean, maintainable work that scales.</p>
     </div>
   </div>
 </section>
@@ -684,7 +432,7 @@
 <!-- SERVICES -->
 <section id="services">
   <div class="section-label">02 — Services</div>
-  <h2 class="services-heading reveal">What I Do</h2>
+  <h2 class="section-heading reveal">What I Do</h2>
 
   <div class="service-card reveal">
     <span class="service-num">01</span>
@@ -693,11 +441,8 @@
       <p class="service-desc">End-to-end Odoo deployment — business requirements analysis, module configuration, bug identification and resolution, data migration, user training, and go-live support. Built to match your exact business process.</p>
     </div>
     <div class="service-tags">
-      <span class="tag">v16</span>
-      <span class="tag">v17</span>
-      <span class="tag">v18</span>
-      <span class="tag">SaaS</span>
-      <span class="tag">On-premise</span>
+      <span class="tag">v16</span><span class="tag">v17</span><span class="tag">v18</span>
+      <span class="tag">SaaS</span><span class="tag">On-premise</span>
     </div>
   </div>
 
@@ -705,13 +450,11 @@
     <span class="service-num">02</span>
     <div>
       <h3 class="service-title">Manufacturing & Inventory</h3>
-      <p class="service-desc">Manufacturing module setup with production segregation, security rules, and access rights per department or user role. Inventory feature enhancements, stock valuation, Quality Control module implementation, and reordering rules.</p>
+      <p class="service-desc">Manufacturing module setup with production segregation, security rules, and access rights per department. Inventory feature enhancements, stock valuation, Quality Control module implementation, and reordering rules.</p>
     </div>
     <div class="service-tags">
-      <span class="tag">MRP</span>
-      <span class="tag">Inventory</span>
-      <span class="tag">Quality</span>
-      <span class="tag">Security</span>
+      <span class="tag">MRP</span><span class="tag">Inventory</span>
+      <span class="tag">Quality</span><span class="tag">Security</span>
     </div>
   </div>
 
@@ -722,40 +465,57 @@
       <p class="service-desc">Full HR implementation covering Employee records, Attendance tracking, Time Off policies, and Payroll — including salary structures, custom salary rules with Python formulas, work entries, and payslip automation.</p>
     </div>
     <div class="service-tags">
-      <span class="tag">Payroll</span>
-      <span class="tag">Attendance</span>
-      <span class="tag">Time Off</span>
-      <span class="tag">Contracts</span>
+      <span class="tag">Payroll</span><span class="tag">Attendance</span>
+      <span class="tag">Time Off</span><span class="tag">Contracts</span>
     </div>
   </div>
 
   <div class="service-card reveal">
     <span class="service-num">04</span>
     <div>
-      <h3 class="service-title">Custom Python & Automation</h3>
-      <p class="service-desc">Custom Python code for Odoo Automation Rules and Server Actions — automated workflows, scheduled actions, field computation, and business logic triggers tailored precisely to your operational needs.</p>
+      <h3 class="service-title">Sales, Purchase & CRM</h3>
+      <p class="service-desc">Complete Sales and Purchase workflow — quotations, order confirmations, invoicing, vendor management, and purchase approvals. CRM pipeline setup with lead stages, automated follow-ups, and reporting dashboards.</p>
     </div>
     <div class="service-tags">
-      <span class="tag">Python</span>
-      <span class="tag">Server Actions</span>
-      <span class="tag">Automation</span>
-      <span class="tag">ORM</span>
+      <span class="tag">Sales</span><span class="tag">Purchase</span>
+      <span class="tag">CRM</span><span class="tag">Invoicing</span>
     </div>
   </div>
 
   <div class="service-card reveal">
     <span class="service-num">05</span>
     <div>
-      <h3 class="service-title">Website Development</h3>
-      <p class="service-desc">Professional websites across all major platforms — WordPress, WooCommerce stores, Shopify setups, and custom Bootstrap themes built from scratch. Full-service delivery includes hosting configuration, domain management, and business email setup.</p>
+      <h3 class="service-title">Custom Python & Automation</h3>
+      <p class="service-desc">Custom Python code for Odoo Automation Rules and Server Actions — automated workflows, scheduled actions, field computation, and business logic triggers tailored precisely to your operational needs.</p>
     </div>
     <div class="service-tags">
-      <span class="tag">WordPress</span>
-      <span class="tag">WooCommerce</span>
-      <span class="tag">Shopify</span>
-      <span class="tag">Bootstrap</span>
-      <span class="tag">Hosting</span>
-      <span class="tag">Email Setup</span>
+      <span class="tag">Python</span><span class="tag">Server Actions</span>
+      <span class="tag">Automation</span><span class="tag">ORM</span>
+    </div>
+  </div>
+
+  <div class="service-card reveal">
+    <span class="service-num">06</span>
+    <div>
+      <h3 class="service-title">Business Needs Implementation</h3>
+      <p class="service-desc">Bridging business requirements and Odoo capabilities — analysing operational workflows, documenting functional specs, and translating real-world needs into precise Odoo configurations, custom fields, and tailored reporting.</p>
+    </div>
+    <div class="service-tags">
+      <span class="tag">Analysis</span><span class="tag">Specs</span>
+      <span class="tag">Config</span><span class="tag">Reporting</span>
+    </div>
+  </div>
+
+  <div class="service-card reveal">
+    <span class="service-num">07</span>
+    <div>
+      <h3 class="service-title">Website Development</h3>
+      <p class="service-desc">Professional websites — WordPress, WooCommerce, Shopify, and custom Bootstrap themes from scratch. Full-service: hosting configuration, domain management, SSL, and professional business email setup.</p>
+    </div>
+    <div class="service-tags">
+      <span class="tag">WordPress</span><span class="tag">WooCommerce</span>
+      <span class="tag">Shopify</span><span class="tag">Bootstrap</span>
+      <span class="tag">Hosting</span><span class="tag">Email</span>
     </div>
   </div>
 </section>
@@ -763,62 +523,21 @@
 <!-- SKILLS -->
 <section id="skills">
   <div class="section-label">03 — Skills</div>
-  <h2 class="skills-heading reveal">Technical Stack</h2>
-
+  <h2 class="section-heading reveal">Technical Stack</h2>
   <div class="row">
     <div class="col-md-6 pe-md-5">
-      <div class="skill-bar-row reveal" data-pct="95">
-        <span class="skill-name">Odoo (Functional)</span>
-        <div class="skill-track"><div class="skill-fill"></div></div>
-        <span class="skill-pct">95%</span>
-      </div>
-      <div class="skill-bar-row reveal" data-pct="85">
-        <span class="skill-name">Python / ORM</span>
-        <div class="skill-track"><div class="skill-fill"></div></div>
-        <span class="skill-pct">85%</span>
-      </div>
-      <div class="skill-bar-row reveal" data-pct="90">
-        <span class="skill-name">Odoo Bug Fixing</span>
-        <div class="skill-track"><div class="skill-fill"></div></div>
-        <span class="skill-pct">90%</span>
-      </div>
-      <div class="skill-bar-row reveal" data-pct="88">
-        <span class="skill-name">XML Views / QWeb</span>
-        <div class="skill-track"><div class="skill-fill"></div></div>
-        <span class="skill-pct">88%</span>
-      </div>
-      <div class="skill-bar-row reveal" data-pct="80">
-        <span class="skill-name">Odoo Studio</span>
-        <div class="skill-track"><div class="skill-fill"></div></div>
-        <span class="skill-pct">80%</span>
-      </div>
+      <div class="skill-bar-row reveal" data-pct="95"><span class="skill-name">Odoo Functional</span><div class="skill-track"><div class="skill-fill"></div></div><span class="skill-pct">95%</span></div>
+      <div class="skill-bar-row reveal" data-pct="85"><span class="skill-name">Python / ORM</span><div class="skill-track"><div class="skill-fill"></div></div><span class="skill-pct">85%</span></div>
+      <div class="skill-bar-row reveal" data-pct="90"><span class="skill-name">Odoo Bug Fixing</span><div class="skill-track"><div class="skill-fill"></div></div><span class="skill-pct">90%</span></div>
+      <div class="skill-bar-row reveal" data-pct="88"><span class="skill-name">XML Views / QWeb</span><div class="skill-track"><div class="skill-fill"></div></div><span class="skill-pct">88%</span></div>
+      <div class="skill-bar-row reveal" data-pct="80"><span class="skill-name">Odoo Studio</span><div class="skill-track"><div class="skill-fill"></div></div><span class="skill-pct">80%</span></div>
     </div>
     <div class="col-md-6 ps-md-5 mt-4 mt-md-0">
-      <div class="skill-bar-row reveal" data-pct="92">
-        <span class="skill-name">HTML / CSS</span>
-        <div class="skill-track"><div class="skill-fill"></div></div>
-        <span class="skill-pct">92%</span>
-      </div>
-      <div class="skill-bar-row reveal" data-pct="85">
-        <span class="skill-name">Bootstrap</span>
-        <div class="skill-track"><div class="skill-fill"></div></div>
-        <span class="skill-pct">85%</span>
-      </div>
-      <div class="skill-bar-row reveal" data-pct="78">
-        <span class="skill-name">JavaScript</span>
-        <div class="skill-track"><div class="skill-fill"></div></div>
-        <span class="skill-pct">78%</span>
-      </div>
-      <div class="skill-bar-row reveal" data-pct="82">
-        <span class="skill-name">PostgreSQL</span>
-        <div class="skill-track"><div class="skill-fill"></div></div>
-        <span class="skill-pct">82%</span>
-      </div>
-      <div class="skill-bar-row reveal" data-pct="75">
-        <span class="skill-name">PHP</span>
-        <div class="skill-track"><div class="skill-fill"></div></div>
-        <span class="skill-pct">75%</span>
-      </div>
+      <div class="skill-bar-row reveal" data-pct="92"><span class="skill-name">HTML / CSS</span><div class="skill-track"><div class="skill-fill"></div></div><span class="skill-pct">92%</span></div>
+      <div class="skill-bar-row reveal" data-pct="85"><span class="skill-name">Bootstrap</span><div class="skill-track"><div class="skill-fill"></div></div><span class="skill-pct">85%</span></div>
+      <div class="skill-bar-row reveal" data-pct="78"><span class="skill-name">JavaScript</span><div class="skill-track"><div class="skill-fill"></div></div><span class="skill-pct">78%</span></div>
+      <div class="skill-bar-row reveal" data-pct="82"><span class="skill-name">PostgreSQL</span><div class="skill-track"><div class="skill-fill"></div></div><span class="skill-pct">82%</span></div>
+      <div class="skill-bar-row reveal" data-pct="75"><span class="skill-name">PHP / WordPress</span><div class="skill-track"><div class="skill-fill"></div></div><span class="skill-pct">75%</span></div>
     </div>
   </div>
 </section>
@@ -826,7 +545,7 @@
 <!-- PORTFOLIO -->
 <section id="portfolio">
   <div class="section-label">04 — Work</div>
-  <h2 class="portfolio-heading reveal">Selected Projects</h2>
+  <h2 class="section-heading reveal">Selected Projects</h2>
   <div class="project-grid">
     <div class="project-card reveal">
       <p class="project-type">Odoo · Bug Fixing</p>
@@ -836,70 +555,97 @@
     <div class="project-card reveal">
       <p class="project-type">Odoo · Manufacturing</p>
       <h3 class="project-name">Manufacturing Segregation & Security Rules</h3>
-      <p class="project-desc">Implemented production segregation across departments with granular security rules and access rights — ensuring each team sees only what they need, maintaining data integrity across the factory floor.</p>
+      <p class="project-desc">Production segregation across departments with granular security rules and access rights — each team sees only what they need, maintaining data integrity across the factory floor.</p>
     </div>
     <div class="project-card reveal">
       <p class="project-type">Odoo · HR & Payroll</p>
       <h3 class="project-name">Full HR Implementation</h3>
-      <p class="project-desc">End-to-end HR setup covering Employee records, Attendance tracking, Time Off policies, and Payroll — including salary structures, custom salary rules, leave accruals, and automated payslip generation.</p>
+      <p class="project-desc">End-to-end HR setup — Employee records, Attendance tracking, Time Off policies, and Payroll with custom salary rules, leave accruals, and automated payslip generation.</p>
     </div>
     <div class="project-card reveal">
       <p class="project-type">Odoo · Inventory</p>
-      <h3 class="project-name">Inventory Feature Enhancement & Access Rights</h3>
-      <p class="project-desc">Extended Odoo's inventory module with custom features, reordering rules, and stock valuation improvements. Configured role-based access rights to control visibility and editing permissions per user group.</p>
+      <h3 class="project-name">Inventory Enhancement & Access Rights</h3>
+      <p class="project-desc">Extended inventory module with custom features, reordering rules, and stock valuation improvements. Role-based access rights per user group.</p>
     </div>
     <div class="project-card reveal">
       <p class="project-type">Odoo · Quality Control</p>
       <h3 class="project-name">Quality Control Module Implementation</h3>
-      <p class="project-desc">Configured and implemented the Odoo Quality Control module — quality points, control plans, and failure alerts linked to manufacturing and inventory operations for full traceability.</p>
+      <p class="project-desc">Quality points, control plans, and failure alerts linked to manufacturing and inventory operations for full traceability.</p>
     </div>
     <div class="project-card reveal">
-      <p class="project-type">Odoo · Python Development</p>
+      <p class="project-type">Odoo · Python</p>
       <h3 class="project-name">Automation Rules & Server Actions</h3>
-      <p class="project-desc">Wrote custom Python code for Odoo Automation Rules and Server Actions — automating workflows, field updates, scheduled triggers, and cross-model logic tailored to operational requirements.</p>
+      <p class="project-desc">Custom Python for Odoo Automation Rules and Server Actions — automated workflows, field updates, scheduled triggers, and cross-model logic.</p>
+    </div>
+    <div class="project-card reveal">
+      <p class="project-type">Odoo · CRM & Sales</p>
+      <h3 class="project-name">CRM Pipeline & Sales Workflow</h3>
+      <p class="project-desc">CRM pipeline with lead stages, automated activities, and win/loss reporting. Full Sales and Purchase workflow configuration with invoicing.</p>
     </div>
     <div class="project-card reveal">
       <p class="project-type">Web · WordPress & WooCommerce</p>
       <h3 class="project-name">WordPress & WooCommerce Stores</h3>
-      <p class="project-desc">Built and configured WordPress sites and WooCommerce e-commerce stores — theme setup, plugin configuration, product catalogues, payment gateways, and performance optimisation.</p>
+      <p class="project-desc">WordPress sites and WooCommerce e-commerce stores — theme setup, plugin configuration, product catalogues, payment gateways, and performance optimisation.</p>
     </div>
     <div class="project-card reveal">
-      <p class="project-type">Web · Shopify</p>
-      <h3 class="project-name">Shopify Store Setup</h3>
-      <p class="project-desc">Full Shopify store configuration — theme customisation, product listing, shipping rules, payment setup, and app integrations. Ready-to-sell from day one.</p>
+      <p class="project-type">Web · Shopify & Bootstrap</p>
+      <h3 class="project-name">Shopify Stores & Custom Themes</h3>
+      <p class="project-desc">Shopify store setup and custom Bootstrap themes built from scratch. Full hosting, domain, SSL, and professional business email configuration.</p>
     </div>
-    <div class="project-card reveal">
-      <p class="project-type">Web · Bootstrap & Hosting</p>
-      <h3 class="project-name">Custom Bootstrap Themes, Hosting & Email</h3>
-      <p class="project-desc">Designed and developed custom Bootstrap themes from scratch. Handled full hosting configuration, domain management, SSL setup, and professional business email setup tied to client domains.</p>
-    </div>
+  </div>
+</section>
+
+<!-- BLOG TEASER -->
+<section id="blog">
+  <div class="section-label">05 — Blog</div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1rem;">
+    <h2 class="section-heading reveal" style="margin-bottom:0;">Thoughts &amp; <em style="font-style:italic;color:var(--gray-mid);">Insights</em></h2>
+    <a href="blog.html" class="blog-all-link reveal">View All Posts <i class="bi bi-arrow-right"></i></a>
+  </div>
+  <div class="blog-teaser-grid">
+    <a href="blog-annual-leave-salary-rules.html" class="blog-teaser-card reveal">
+      <span class="btc-cat">Odoo · Payroll</span>
+      <span class="btc-title">How to Configure Annual Leave Salary Rules in Odoo v18</span>
+      <span class="btc-excerpt">Work Entry Types, Salary Structures, and Python formulas for leave pay — step by step.</span>
+      <span class="btc-date">May 30, 2026</span>
+    </a>
+    <a href="blog-manufacturing-security.html" class="blog-teaser-card reveal">
+      <span class="btc-cat">Odoo · Manufacturing</span>
+      <span class="btc-title">Production Segregation Using Security Rules in Odoo</span>
+      <span class="btc-excerpt">Restrict manufacturing orders per department using record rules and user groups — no custom code needed.</span>
+      <span class="btc-date">May 28, 2026</span>
+    </a>
+    <a href="blog-server-actions.html" class="blog-teaser-card reveal">
+      <span class="btc-cat">Odoo · Python</span>
+      <span class="btc-title">Writing Effective Server Actions & Automation Rules</span>
+      <span class="btc-excerpt">Practical Python patterns for automating real business workflows inside Odoo.</span>
+      <span class="btc-date">May 25, 2026</span>
+    </a>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
   <div>
-    <div class="section-label">05 — Contact</div>
-    <h2 class="contact-heading reveal">
-      Let's Build<br><em>Something</em><br>Together.
-    </h2>
-    <div class="contact-info reveal" style="margin-top: 3rem;">
-      <p>Currently at <strong style="color:var(--white);">Ard Perfumes Factory LLC, U.A.E.</strong><br>Available for freelance projects, consulting engagements, and long-term partnerships.</p>
-      <p style="margin-top:0.5rem; font-size:0.8rem; font-family:'DM Mono',monospace; letter-spacing:0.1em; color: var(--gray-mid);">🎓 Bachelor in Information Technology</p>
-      <a href="tel:+971503177520" class="contact-link">
-        <i class="bi bi-telephone"></i> +971 50 317 7520
-      </a>
-      <a href="mailto:info@aaqibbajwa.com" class="contact-link">
-        <i class="bi bi-envelope"></i> info@aaqibbajwa.com
-      </a>
-      <a href="https://github.com/bajwaaaqib" target="_blank" class="contact-link">
-        <i class="bi bi-github"></i> github.com/bajwaaaqib
-      </a>
+    <div class="section-label">06 — Contact</div>
+    <h2 class="contact-heading reveal">Let's Build<br><em>Something</em><br>Together.</h2>
+    <div class="contact-info reveal" style="margin-top:3rem;">
+      <p>Currently at <strong style="color:var(--white);">Ard Perfumes Factory LLC, U.A.E.</strong><br>Available for freelance projects, consulting, and long-term partnerships.</p>
+      <p style="font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;color:var(--gray-soft);margin-bottom:1.5rem;">🎓 Bachelor in Information Technology</p>
+      <a href="tel:+971503177520" class="contact-link"><i class="bi bi-telephone"></i> +971 50 317 7520</a>
+      <a href="mailto:info@aaqibbajwa.com" class="contact-link"><i class="bi bi-envelope"></i> info@aaqibbajwa.com</a>
+      <a href="https://github.com/bajwaaaqib" target="_blank" class="contact-link"><i class="bi bi-github"></i> github.com/bajwaaaqib</a>
     </div>
+  </div>
+  <div class="contact-form reveal">
+    <div class="form-group"><label>Your Name</label><input type="text" placeholder="John Smith"/></div>
+    <div class="form-group"><label>Email Address</label><input type="email" placeholder="john@company.com"/></div>
+    <div class="form-group"><label>Project Type</label><input type="text" placeholder="Odoo Implementation / Website / Both"/></div>
+    <div class="form-group"><label>Message</label><textarea placeholder="Tell me about your project..."></textarea></div>
+    <button type="button">Send Message <i class="bi bi-arrow-right"></i></button>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <p>© 2026 — Aaqib Bajwa · Odoo Consultant & Web Developer</p>
   <p>U.A.E · info@aaqibbajwa.com</p>
@@ -907,14 +653,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  // Intersection Observer for reveal animations
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
         setTimeout(() => {
           entry.target.classList.add('visible');
-          // Animate skill bars
           const fill = entry.target.querySelector('.skill-fill');
           const pct  = entry.target.getAttribute('data-pct');
           if (fill && pct) fill.style.width = pct + '%';
@@ -923,10 +667,8 @@
       }
     });
   }, { threshold: 0.15 });
-
   reveals.forEach(el => observer.observe(el));
 
-  // Smooth active nav highlighting
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links a');
   window.addEventListener('scroll', () => {

@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog — Aaqib Bajwa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f4f0;
+      --gray-soft: #e8e6e1;
+      --gray-mid: #999690;
+      --gray-dark: #2a2a2a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.4rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: rgba(10,10,10,0.88);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      text-decoration: none;
+    }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      text-decoration: none;
+      margin-left: 2rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
+
+    /* ── BLOG HERO ── */
+    .blog-hero {
+      padding: 12rem 2.5rem 5rem;
+      position: relative;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .blog-hero-bg {
+      position: absolute;
+      top: 50%;
+      right: -2rem;
+      transform: translateY(-50%);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(6rem, 14vw, 18rem);
+      font-weight: 900;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.03);
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -0.03em;
+    }
+
+    .blog-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-bottom: 1.2rem;
+    }
+
+    .blog-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 6vw, 6rem);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+    }
+
+    .blog-hero h1 em {
+      font-style: italic;
+      color: var(--gray-mid);
+    }
+
+    .blog-hero p {
+      max-width: 480px;
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--gray-mid);
+      margin-top: 1.5rem;
+    }
+
+    /* ── FILTER TAGS ── */
+    .filter-bar {
+      padding: 2rem 2.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .filter-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-right: 0.5rem;
+    }
+
+    .filter-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.9rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--gray-mid);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--white);
+      color: var(--black);
+      border-color: var(--white);
+    }
+
+    /* ── POSTS GRID ── */
+    .posts-section {
+      padding: 5rem 2.5rem 8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.07);
+    }
+
+    .post-card {
+      background: var(--black);
+      padding: 2.5rem;
+      cursor: pointer;
+      transition: background 0.25s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .post-card:hover { background: #141414; }
+
+    .post-category {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-bottom: 1.2rem;
+    }
+
+    .post-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--white);
+      margin-bottom: 0.9rem;
+      flex: 1;
+    }
+
+    .post-excerpt {
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: var(--gray-mid);
+      margin-bottom: 1.8rem;
+    }
+
+    .post-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 1.2rem;
+    }
+
+    .post-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.12em;
+      color: var(--gray-mid);
+    }
+
+    .post-read {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      transition: color 0.2s;
+    }
+
+    .post-card:hover .post-read { color: var(--white); }
+
+    /* ── FEATURED POST (spans 2 cols) ── */
+    .post-card.featured {
+      grid-column: span 2;
+    }
+
+    .post-card.featured .post-title {
+      font-size: 1.7rem;
+    }
+
+    .post-card.featured .post-excerpt {
+      max-width: 500px;
+    }
+
+    /* ── SINGLE POST MODAL ── */
+    .post-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,5,5,0.97);
+      z-index: 200;
+      display: none;
+      overflow-y: auto;
+    }
+
+    .post-modal-overlay.open { display: block; }
+
+    .post-modal {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 6rem 2.5rem 8rem;
+    }
+
+    .modal-close {
+      position: fixed;
+      top: 1.8rem;
+      right: 2.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      cursor: pointer;
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+      z-index: 201;
+    }
+
+    .modal-close:hover { color: var(--white); }
+
+    .modal-category {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .modal-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      color: var(--gray-mid);
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .modal-body {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--gray-soft);
+    }
+
+    .modal-body h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      margin: 2.5rem 0 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .modal-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--white);
+      margin: 2rem 0 0.7rem;
+    }
+
+    .modal-body p { margin-bottom: 1.3rem; }
+
+    .modal-body code {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+      background: rgba(255,255,255,0.06);
+      padding: 0.15rem 0.45rem;
+      color: var(--gray-soft);
+    }
+
+    .modal-body pre {
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 1.5rem;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: var(--gray-soft);
+    }
+
+    .modal-body ul, .modal-body ol {
+      margin: 0 0 1.3rem 1.5rem;
+    }
+
+    .modal-body li { margin-bottom: 0.4rem; }
+
+    .modal-body strong { color: var(--white); font-weight: 500; }
+
+    .modal-body blockquote {
+      border-left: 2px solid rgba(255,255,255,0.2);
+      padding-left: 1.5rem;
+      margin: 1.5rem 0;
+      color: var(--gray-mid);
+      font-style: italic;
+    }
+
+    /* ── NEWSLETTER ── */
+    .newsletter {
+      background: var(--gray-dark);
+      padding: 5rem 2.5rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+      z-index: 1;
+    }
+
+    .newsletter h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.7rem;
+    }
+
+    .newsletter p {
+      font-size: 0.88rem;
+      color: var(--gray-mid);
+      margin-bottom: 2rem;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 0;
+      max-width: 480px;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-right: none;
+      color: var(--white);
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 0.88rem;
+      padding: 0.8rem 1.2rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .newsletter-form input:focus { border-color: rgba(255,255,255,0.4); }
+    .newsletter-form input::placeholder { color: var(--gray-mid); }
+
+    .newsletter-form button {
+      padding: 0.8rem 1.8rem;
+      background: var(--white);
+      color: var(--black);
+      border: 1px solid var(--white);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    .newsletter-form button:hover { background: var(--gray-soft); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 2.5rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+    }
+
+    footer a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--white); }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .blog-hero { padding: 9rem 1.5rem 3rem; }
+      .posts-section { padding: 3rem 1.5rem 5rem; }
+      .filter-bar { padding: 1.5rem; }
+      .posts-grid { grid-template-columns: 1fr; }
+      .post-card.featured { grid-column: span 1; }
+      .post-card.featured .post-title { font-size: 1.3rem; }
+      .post-modal { padding: 5rem 1.5rem 5rem; }
+      .modal-close { right: 1.5rem; }
+      .newsletter { padding: 3rem 1.5rem; }
+      .newsletter-form { flex-direction: column; }
+      .newsletter-form input { border-right: 1px solid rgba(255,255,255,0.15); border-bottom: none; }
+      footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Aaqib Bajwa</a>
+  <div class="nav-links">
+    <a href="index.html#about">About</a>
+    <a href="index.html#services">Services</a>
+    <a href="index.html#skills">Skills</a>
+    <a href="index.html#portfolio">Work</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="blog.html" class="active">Blog</a>
+  </div>
+</nav>
+
+<!-- BLOG HERO -->
+<div class="blog-hero">
+  <div class="blog-hero-bg">BLOG</div>
+  <p class="blog-tag">Odoo · Web Development · Technical Insights</p>
+  <h1>Daily <em>Thoughts</em><br>&amp; Insights</h1>
+  <p>Practical guides, tips, and lessons learned from real-world Odoo implementations and web development projects. Written by Aaqib Bajwa.</p>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="odoo">Odoo</button>
+  <button class="filter-btn" data-filter="payroll">Payroll & HR</button>
+  <button class="filter-btn" data-filter="manufacturing">Manufacturing</button>
+  <button class="filter-btn" data-filter="python">Python</button>
+  <button class="filter-btn" data-filter="web">Web Dev</button>
+  <button class="filter-btn" data-filter="crm">Sales & CRM</button>
+</div>
+
+<!-- POSTS -->
+<div class="posts-section">
+  <div class="posts-grid" id="postsGrid">
+
+    <!-- FEATURED -->
+    <div class="post-card featured reveal" data-category="payroll odoo" data-post="0">
+      <p class="post-category">Odoo · Payroll</p>
+      <h3 class="post-title">How to Configure Annual Leave Salary Rules in Odoo v18 SaaS</h3>
+      <p class="post-excerpt">A complete step-by-step guide covering Work Entry Types, Salary Structures, Python formulas for leave pay calculation, and how to test your setup on a real payslip. Covers both daily-rate and hourly-rate approaches.</p>
+      <div class="post-meta">
+        <span class="post-date">May 30, 2026</span>
+        <span class="post-read">Read Article →</span>
+      </div>
+    </div>
+
+    <div class="post-card reveal" data-category="manufacturing odoo" data-post="1">
+      <p class="post-category">Odoo · Manufacturing</p>
+      <h3 class="post-title">Production Segregation Using Security Rules</h3>
+      <p class="post-excerpt">How to restrict manufacturing orders and work centres per department using Odoo record rules and user groups — without custom code.</p>
+      <div class="post-meta">
+        <span class="post-date">May 28, 2026</span>
+        <span class="post-read">Read Article →</span>
+      </div>
+    </div>
+
+    <div class="post-card reveal" data-category="python odoo" data-post="2">
+      <p class="post-category">Odoo · Python</p>
+      <h3 class="post-title">Writing Effective Server Actions & Automation Rules</h3>
+      <p class="post-excerpt">Practical Python examples for Odoo Server Actions that automate real business workflows — field updates, email triggers, and cross-model logic.</p>
+      <div class="post-meta">
+        <span class="post-date">May 25, 2026</span>
+        <span class="post-read">Read Article →</span>
+      </div>
+    </div>
+
+    <div class="post-card reveal" data-category="odoo" data-post="3">
+      <p class="post-category">Odoo · Inventory</p>
+      <h3 class="post-title">Inventory Feature Enhancement & Role-Based Access Rights</h3>
+      <p class="post-excerpt">Configuring Odoo inventory with custom features, reordering rules, and access control per user group — a practical walkthrough.</p>
+      <div class="post-meta">
+        <span class="post-date">May 22, 2026</span>
+        <span class="post-read">Read Article →</span>
+      </div>
+    </div>
+
+    <div class="post-card reveal" data-category="crm odoo" data-post="4">
+      <p class="post-category">Odoo · CRM & Sales</p>
+      <h3 class="post-title">Setting Up Odoo CRM Pipeline for Real Sales Teams</h3>
+      <p class="post-excerpt">From lead stages and activities to automated follow-ups and win/loss reporting — building a CRM that your sales team will actually use.</p>
+      <div class="post-meta">
+        <span class="post-date">May 20, 2026</span>
+        <span class="post-read">Read Article →</span>
+      </div>
+    </div>
+
+    <div class="post-card reveal" data-category="odoo" data-post="5">
+      <p class="post-category">Odoo · Quality</p>
+      <h3 class="post-title">Implementing Quality Control in Odoo Manufacturing</h3>
+      <p class="post-excerpt">Quality points, control plans, and failure alerts linked to manufacturing orders — a complete QC setup guide for Odoo v17/v18.</p>
+      <div class="post-meta">
+        <span class="post-date">May 18, 2026</span>
+        <span class="post-read">Read Article →</span>
+      </div>
+    </div>
+
+    <div class="post-card reveal" data-category="web" data-post="6">
+      <p class="post-category">Web · WordPress</p>
+      <h3 class="post-title">WordPress + WooCommerce: Full Setup Checklist</h3>
+      <p class="post-excerpt">Everything from hosting selection and domain configuration to WooCommerce setup, payment gateways, and going live — a no-nonsense checklist.</p>
+      <div class="post-meta">
+        <span class="post-date">May 15, 2026</span>
+        <span class="post-read">Read Article →</span>
+      </div>
+    </div>
+
+    <div class="post-card reveal" data-category="web" data-post="7">
+      <p class="post-category">Web · Shopify</p>
+      <h3 class="post-title">Shopify Store Setup: From Zero to Launch</h3>
+      <p class="post-excerpt">Theme customisation, product structure, shipping zones, payment setup, and app recommendations for a professional Shopify launch.</p>
+      <div class="post-meta">
+        <span class="post-date">May 12, 2026</span>
+        <span class="post-read">Read Article →</span>
+      </div>
+    </div>
+
+    <div class="post-card reveal" data-category="payroll odoo" data-post="8">
+      <p class="post-category">Odoo · HR</p>
+      <h3 class="post-title">Odoo Attendance & Time Off: Full HR Configuration</h3>
+      <p class="post-excerpt">Setting up employee attendance rules, Time Off policies, leave allocations, and approval workflows from scratch in Odoo v18.</p>
+      <div class="post-meta">
+        <span class="post-date">May 10, 2026</span>
+        <span class="post-read">Read Article →</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- NEWSLETTER -->
+<div class="newsletter">
+  <div class="row align-items-center">
+    <div class="col-md-6 reveal">
+      <h2>Stay in the Loop</h2>
+      <p>New articles on Odoo, web development, and practical ERP insights — delivered when they're ready, no spam.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com" />
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+    <div class="col-md-6 reveal" style="padding-top: 2rem;">
+      <div style="display:flex; gap:3rem; padding-left: 2rem;">
+        <div>
+          <p style="font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:900; color:var(--white); line-height:1; margin-bottom:0.3rem;">9</p>
+          <p style="font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray-mid);">Articles</p>
+        </div>
+        <div>
+          <p style="font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:900; color:var(--white); line-height:1; margin-bottom:0.3rem;">5</p>
+          <p style="font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray-mid);">Topics</p>
+        </div>
+        <div>
+          <p style="font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:900; color:var(--white); line-height:1; margin-bottom:0.3rem;">∞</p>
+          <p style="font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray-mid);">More Coming</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 — Aaqib Bajwa · Odoo Consultant & Web Developer</p>
+  <a href="index.html">← Back to Portfolio</a>
+</footer>
+
+<!-- SINGLE POST MODAL -->
+<div class="post-modal-overlay" id="postModal">
+  <button class="modal-close" onclick="closePost()"><i class="bi bi-arrow-left"></i> Back to Blog</button>
+  <div class="post-modal" id="postContent"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+  /* ── POSTS DATA ── */
+  const posts = [
+    {
+      category: "Odoo · Payroll",
+      title: "How to Configure Annual Leave Salary Rules in Odoo v18 SaaS",
+      date: "May 30, 2026",
+      readTime: "8 min read",
+      body: `
+        <p>Configuring annual leave salary rules in Odoo v18 SaaS requires understanding how Work Entry Types, Salary Structures, and Python formulas connect. This guide walks through every step.</p>
+
+        <h2>Step 1: Enable Developer Mode</h2>
+        <p>Go to <strong>Settings → General Settings → Developer Tools → Activate Developer Mode</strong>. This unlocks the full salary rule configuration panel including Python code fields.</p>
+
+        <h2>Step 2: Configure the Work Entry Type</h2>
+        <p>Navigate to <strong>Payroll → Configuration → Work Entry Types</strong>. Find or create <strong>Annual Leave</strong> and ensure:</p>
+        <ul>
+          <li>Time Off is enabled</li>
+          <li>Leave Type is linked to your Annual Leave time-off type</li>
+          <li>Round Days is set to Full Day</li>
+        </ul>
+
+        <h2>Step 3: Link the Time Off Type</h2>
+        <p>Go to <strong>Time Off → Configuration → Activity Types → Annual Leave</strong>. In the Payroll section, set the Work Entry Type to the one you just configured. Set <strong>Requires Allocation: Yes</strong>.</p>
+
+        <h2>Step 4: Create the Salary Rule</h2>
+        <p>Navigate to <strong>Payroll → Configuration → Salary Rules → New</strong>. Fill in the following:</p>
+        <ul>
+          <li><strong>Name:</strong> Annual Leave Pay</li>
+          <li><strong>Code:</strong> ANNUAL_LEAVE</li>
+          <li><strong>Category:</strong> Leaves</li>
+          <li><strong>Amount Type:</strong> Python Code</li>
+        </ul>
+        <p>In the Python formula field, enter:</p>
+        <pre>result = (contract.wage / 30) * worked_days.ANNUAL_LEAVE.number_of_days</pre>
+        <p>This calculates the daily rate multiplied by the number of annual leave days taken in the payslip period.</p>
+
+        <h2>Step 5: Add to Salary Structure</h2>
+        <p>Go to <strong>Payroll → Configuration → Salary Structures</strong>, open your structure (e.g. Regular Pay), and add the ANNUAL_LEAVE rule in the Salary Rules tab.</p>
+
+        <h2>Step 6: Test on a Payslip</h2>
+        <p>Create a payslip for an employee who has validated annual leave in the period. Click <strong>Compute Sheet</strong> — the Annual Leave Pay line should appear with the correct calculated amount.</p>
+
+        <blockquote>The <code>worked_days.ANNUAL_LEAVE</code> object only populates if the employee has validated leave requests in that payslip period. If it returns empty, check the work entry code matches exactly.</blockquote>
+
+        <h2>Troubleshooting</h2>
+        <p>If the rule doesn't appear or returns zero: verify the leave is validated (not draft), confirm the Work Entry Type code matches your Python reference, and ensure the salary structure is correctly linked to the employee's contract.</p>
+      `
+    },
+    {
+      category: "Odoo · Manufacturing",
+      title: "Production Segregation Using Security Rules",
+      date: "May 28, 2026",
+      readTime: "6 min read",
+      body: `
+        <p>In factories with multiple production lines or departments, it's essential that teams only see the manufacturing orders relevant to them. Odoo's record rules and user groups make this achievable without any custom code.</p>
+
+        <h2>Understanding Record Rules vs Access Rights</h2>
+        <p>Access Rights control what a user <strong>can do</strong> (read, write, create, delete). Record Rules control <strong>which records</strong> they can see. You need both for proper segregation.</p>
+
+        <h2>Step 1: Create Department-Based User Groups</h2>
+        <p>Go to <strong>Settings → Users & Companies → Groups</strong>. Create a group for each production department, e.g. "MFG / Line A" and "MFG / Line B". Add the relevant users to each group.</p>
+
+        <h2>Step 2: Add a Segregation Field</h2>
+        <p>On the Manufacturing Order model, add a Many2one field linking to the department or production line. This is your filter field. In Odoo v18, you can do this via Odoo Studio or a custom module.</p>
+
+        <h2>Step 3: Create Record Rules</h2>
+        <p>Go to <strong>Settings → Technical → Record Rules</strong>. Create a new rule for <code>mrp.production</code>:</p>
+        <ul>
+          <li><strong>Name:</strong> MFG Line A — Own Records Only</li>
+          <li><strong>Groups:</strong> MFG / Line A</li>
+          <li><strong>Domain Filter:</strong> <code>[('production_line_id.name', '=', 'Line A')]</code></li>
+        </ul>
+        <p>Repeat for each department group.</p>
+
+        <h2>Step 4: Test the Configuration</h2>
+        <p>Log in as a user from Line A — they should only see manufacturing orders assigned to Line A. Managers with no record rule restriction will see all orders.</p>
+
+        <blockquote>Always test record rules with a non-admin user. Odoo administrators bypass all record rules by default.</blockquote>
+      `
+    },
+    {
+      category: "Odoo · Python",
+      title: "Writing Effective Server Actions & Automation Rules",
+      date: "May 25, 2026",
+      readTime: "7 min read",
+      body: `
+        <p>Server Actions and Automation Rules are two of the most powerful tools in Odoo for automating business workflows — and they're often underused. Here are practical patterns that work in production.</p>
+
+        <h2>Server Actions vs Automation Rules</h2>
+        <p><strong>Server Actions</strong> are reusable Python code blocks you trigger manually, from buttons, or from automation rules. <strong>Automation Rules</strong> are event-driven triggers (on record create, update, time condition) that call Server Actions.</p>
+
+        <h2>Example 1: Auto-Send Email When Sale Order Confirmed</h2>
+        <pre>for record in records:
+    if record.state == 'sale':
+        template = env.ref('sale.email_template_edi_sale')
+        template.send_mail(record.id, force_send=True)</pre>
+
+        <h2>Example 2: Set a Custom Field on Manufacturing Order Confirmation</h2>
+        <pre>for record in records:
+    record.write({
+        'x_confirmed_by': env.user.name,
+        'x_confirmed_date': fields.Datetime.now(),
+    })</pre>
+
+        <h2>Example 3: Auto-Assign Responsible Person Based on Department</h2>
+        <pre>for record in records:
+    if record.department_id.name == 'Production':
+        manager = env['res.users'].search([
+            ('name', 'ilike', 'Production Manager')
+        ], limit=1)
+        if manager:
+            record.user_id = manager</pre>
+
+        <h2>Best Practices</h2>
+        <ul>
+          <li>Always iterate over <code>records</code> (not <code>record</code>) — automation rules can pass multiple records</li>
+          <li>Use <code>env.ref()</code> to reference email templates by XML ID</li>
+          <li>Wrap risky operations in try/except to prevent one failure from blocking others</li>
+          <li>Test in developer mode with a single record before enabling on all</li>
+        </ul>
+
+        <blockquote>Automation Rules with "Time Condition" triggers are ideal for SLA enforcement — e.g. escalate a support ticket if not responded to within 24 hours.</blockquote>
+      `
+    },
+    {
+      category: "Odoo · Inventory",
+      title: "Inventory Feature Enhancement & Role-Based Access Rights",
+      date: "May 22, 2026",
+      readTime: "5 min read",
+      body: `
+        <p>Odoo's inventory module is powerful out of the box, but most businesses need enhancements — custom fields, tighter access control, and workflow adjustments. Here's a practical approach.</p>
+
+        <h2>Common Inventory Enhancements</h2>
+        <ul>
+          <li>Adding custom fields to stock moves (e.g. batch number, project code)</li>
+          <li>Automatic reordering rules per product category</li>
+          <li>Custom inventory valuation reports</li>
+          <li>Blocking negative stock per warehouse</li>
+        </ul>
+
+        <h2>Setting Up Role-Based Access</h2>
+        <p>Odoo has built-in inventory user roles: <strong>User</strong> (basic operations) and <strong>Manager</strong> (full access). For finer control, create custom groups and record rules scoped to specific warehouses or product categories.</p>
+
+        <h2>Blocking Negative Stock</h2>
+        <p>Go to <strong>Inventory → Configuration → Warehouses</strong> and enable "Negative Stock" restrictions per location. For a global setting, go to <strong>Inventory → Configuration → Settings → Traceability</strong>.</p>
+
+        <h2>Custom Reordering Rules</h2>
+        <p>Navigate to <strong>Inventory → Operations → Replenishment</strong>. Set minimum and maximum quantities per product/location. Odoo will automatically generate purchase or manufacturing orders when stock falls below the minimum.</p>
+
+        <blockquote>For complex inventory setups, always enable multi-step routes (3-step receiving / shipping) from the start — retrofitting this later disrupts existing flows.</blockquote>
+      `
+    },
+    {
+      category: "Odoo · CRM & Sales",
+      title: "Setting Up Odoo CRM Pipeline for Real Sales Teams",
+      date: "May 20, 2026",
+      readTime: "6 min read",
+      body: `
+        <p>A CRM that your sales team ignores is worse than no CRM at all. Here's how to configure Odoo CRM to match real sales behaviour — not just the textbook process.</p>
+
+        <h2>Designing Your Pipeline Stages</h2>
+        <p>Keep stages simple: <strong>New → Qualified → Proposal Sent → Negotiation → Won/Lost</strong>. Avoid creating too many stages — each stage should require a concrete action, not just a status label.</p>
+
+        <h2>Lead Scoring & Assignment</h2>
+        <p>Enable lead scoring under <strong>CRM → Configuration → Settings → Predictive Lead Scoring</strong>. Odoo will assign a probability to each lead based on historical win rates. Use this to prioritise your team's effort.</p>
+
+        <h2>Automated Activities</h2>
+        <p>Set up automatic activities when a lead moves to a stage. For example, when a lead enters "Proposal Sent", automatically schedule a follow-up call in 3 days. Go to the stage settings and add a default activity type.</p>
+
+        <h2>Sales Teams & Territories</h2>
+        <p>Create Sales Teams under <strong>CRM → Configuration → Sales Teams</strong>. Assign team members and set up assignment rules based on country, industry, or lead source to ensure leads reach the right person automatically.</p>
+
+        <h2>Win/Loss Analysis</h2>
+        <p>Always mark lost leads with a reason. Over time, the Lost Reason analysis report becomes your most valuable tool for understanding why deals fail and adjusting your approach.</p>
+
+        <blockquote>The best CRM setup is the one your team actually fills in. Start simple, gather feedback after 4 weeks, then refine.</blockquote>
+      `
+    },
+    {
+      category: "Odoo · Quality",
+      title: "Implementing Quality Control in Odoo Manufacturing",
+      date: "May 18, 2026",
+      readTime: "5 min read",
+      body: `
+        <p>Odoo's Quality module integrates directly with Manufacturing and Inventory to create traceable quality checkpoints. Here's how to implement it properly.</p>
+
+        <h2>Enable the Quality Module</h2>
+        <p>Go to <strong>Apps</strong> and install <strong>Quality Control</strong>. This adds Quality Points, Quality Checks, and Alerts to your Manufacturing and Inventory flows.</p>
+
+        <h2>Create Quality Control Points</h2>
+        <p>Navigate to <strong>Quality → Configuration → Control Points</strong>. Define when and where checks happen — at goods receipt, during manufacturing operations, or at product delivery. Each control point specifies the product, operation type, and check type (Pass/Fail, Measure, Instructions).</p>
+
+        <h2>Linking Checks to Manufacturing Operations</h2>
+        <p>When a manufacturing order reaches the relevant operation, Odoo automatically generates a Quality Check. The operator must complete the check before they can proceed. Failed checks trigger an alert that notifies the quality manager.</p>
+
+        <h2>Quality Alerts</h2>
+        <p>Alerts can be raised manually or automatically on check failure. They include root cause, corrective action, and responsible person fields — giving you a full audit trail.</p>
+
+        <h2>Reporting</h2>
+        <p>Use the <strong>Quality → Reporting</strong> section to analyse failure rates by product, operation, and time period. This data drives continuous improvement decisions.</p>
+
+        <blockquote>Connect Quality Checks to specific work centre operations for maximum traceability — this ensures checks happen at the right physical point in production, not just on the order.</blockquote>
+      `
+    },
+    {
+      category: "Web · WordPress",
+      title: "WordPress + WooCommerce: Full Setup Checklist",
+      date: "May 15, 2026",
+      readTime: "7 min read",
+      body: `
+        <p>Launching a WooCommerce store properly takes more than installing a theme. Here's the full checklist I use for every client project.</p>
+
+        <h2>Hosting & Domain</h2>
+        <ul>
+          <li>Choose a managed WordPress host (SiteGround, Kinsta, or WP Engine for performance)</li>
+          <li>Point domain nameservers to host's DNS</li>
+          <li>Install SSL certificate (Let's Encrypt is free on most hosts)</li>
+          <li>Set up professional email via cPanel or Google Workspace</li>
+        </ul>
+
+        <h2>WordPress Core Setup</h2>
+        <ul>
+          <li>Install WordPress via one-click installer</li>
+          <li>Set permalink structure to <code>/shop/product-name/</code></li>
+          <li>Delete default posts, pages, and sample data</li>
+          <li>Install and activate a lightweight theme or custom Bootstrap theme</li>
+        </ul>
+
+        <h2>WooCommerce Configuration</h2>
+        <ul>
+          <li>Run WooCommerce setup wizard — store details, currency, payment methods</li>
+          <li>Configure shipping zones and rates per region</li>
+          <li>Set up tax rules (or use WooCommerce Tax if applicable)</li>
+          <li>Install Stripe or PayPal for payment processing</li>
+          <li>Enable guest checkout alongside account registration</li>
+        </ul>
+
+        <h2>Essential Plugins</h2>
+        <ul>
+          <li><strong>Yoast SEO</strong> — on-page SEO</li>
+          <li><strong>WP Rocket</strong> — caching and performance</li>
+          <li><strong>Wordfence</strong> — security</li>
+          <li><strong>UpdraftPlus</strong> — automated backups</li>
+        </ul>
+
+        <h2>Pre-Launch Testing</h2>
+        <p>Place a test order through every payment method. Check mobile responsiveness, page load speed (target under 3 seconds), and all transactional emails (order confirmation, shipping notification).</p>
+
+        <blockquote>Always run GTmetrix and Google PageSpeed Insights before handing a site to a client. A slow store loses sales before a customer even sees a product.</blockquote>
+      `
+    },
+    {
+      category: "Web · Shopify",
+      title: "Shopify Store Setup: From Zero to Launch",
+      date: "May 12, 2026",
+      readTime: "5 min read",
+      body: `
+        <p>Shopify is fast to launch, but a professional setup requires attention to detail. Here's the sequence I follow for every Shopify project.</p>
+
+        <h2>Account & Domain</h2>
+        <p>Create the Shopify account and immediately connect the custom domain under <strong>Online Store → Domains</strong>. Point DNS records as instructed, and enable HTTPS (Shopify handles SSL automatically).</p>
+
+        <h2>Theme Setup</h2>
+        <p>Start with a free Shopify theme or a premium one from the Theme Store. Customise via the visual editor — upload brand logo, set colours and fonts, configure header and footer navigation. For deeper customisation, edit the <code>theme.liquid</code> file directly.</p>
+
+        <h2>Products & Collections</h2>
+        <p>Structure collections logically before adding products. Each product needs: a clear title, description with keywords, at least 3 product images, correct variants (size, colour), and accurate weight for shipping calculations.</p>
+
+        <h2>Payment & Shipping</h2>
+        <p>Enable Shopify Payments (where available) or Stripe as the primary gateway. Configure shipping zones under <strong>Settings → Shipping and Delivery</strong>. Set flat rates, weight-based rates, or free shipping thresholds as needed.</p>
+
+        <h2>Essential Apps</h2>
+        <ul>
+          <li><strong>Klaviyo</strong> — email marketing</li>
+          <li><strong>Judge.me</strong> — product reviews</li>
+          <li><strong>Loox</strong> — photo reviews</li>
+          <li><strong>TikTok / Meta</strong> — social channel integration</li>
+        </ul>
+
+        <h2>Pre-Launch</h2>
+        <p>Place a real test order. Check all notification emails. Verify the checkout flow on mobile. Remove password protection from the store. Submit sitemap to Google Search Console.</p>
+
+        <blockquote>Shopify's built-in analytics are good for the first year. Once you hit consistent traffic, move to Google Analytics 4 for deeper funnel analysis.</blockquote>
+      `
+    },
+    {
+      category: "Odoo · HR",
+      title: "Odoo Attendance & Time Off: Full HR Configuration",
+      date: "May 10, 2026",
+      readTime: "6 min read",
+      body: `
+        <p>A properly configured HR module saves hours of manual calculation every payroll cycle. Here's the complete setup for Attendance and Time Off in Odoo v18.</p>
+
+        <h2>Work Schedules</h2>
+        <p>Start with <strong>Employees → Configuration → Work Schedules</strong>. Create schedules that match your actual working hours — standard 8-hour day, flexible, or shift-based. Each schedule defines the expected working hours per day and week, which feeds into attendance comparison and payroll.</p>
+
+        <h2>Attendance Configuration</h2>
+        <p>Enable attendance under <strong>Attendances → Configuration → Settings</strong>. Choose between manual check-in/out, biometric device integration, or kiosk mode. Link each employee's contract to the correct work schedule so Odoo knows what "on time" looks like.</p>
+
+        <h2>Time Off Types</h2>
+        <p>Navigate to <strong>Time Off → Configuration → Activity Types</strong>. Create types for Annual Leave, Sick Leave, Emergency Leave, etc. For each type configure:</p>
+        <ul>
+          <li>Requires allocation (Yes for annual leave, No for sick leave typically)</li>
+          <li>Approval (no validation, by time off officer, or by manager)</li>
+          <li>Carry-over rules (do unused days roll to next year?)</li>
+          <li>Linked Work Entry Type (for payroll integration)</li>
+        </ul>
+
+        <h2>Leave Allocations</h2>
+        <p>Go to <strong>Time Off → Managers → Allocation Requests</strong>. Create bulk allocations for all employees at the start of each year, or set up accrual plans that automatically add leave days monthly.</p>
+
+        <h2>Approval Workflows</h2>
+        <p>For each Time Off type, set the validation mode. "By Time Off Officer" means HR approves all requests centrally. "Set by Time Off Officer" allows team managers to approve their direct reports' requests — better for larger organisations.</p>
+
+        <blockquote>Always link your Time Off types to the correct Work Entry Type before your first payroll run — fixing this retroactively on validated payslips is painful.</blockquote>
+      `
+    }
+  ];
+
+  /* ── OPEN / CLOSE POST ── */
+  function openPost(index) {
+    const post = posts[index];
+    document.getElementById('postContent').innerHTML = `
+      <p class="modal-category">${post.category}</p>
+      <h1 class="modal-title">${post.title}</h1>
+      <p class="modal-meta">${post.date} &nbsp;·&nbsp; ${post.readTime} &nbsp;·&nbsp; Aaqib Bajwa</p>
+      <div class="modal-body">${post.body}</div>
+    `;
+    document.getElementById('postModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('postModal').scrollTo(0, 0);
+  }
+
+  function closePost() {
+    document.getElementById('postModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Attach click handlers to cards
+  document.querySelectorAll('.post-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const idx = parseInt(card.getAttribute('data-post'));
+      openPost(idx);
+    });
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closePost();
+  });
+
+  /* ── FILTER ── */
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      const filter = this.getAttribute('data-filter');
+      document.querySelectorAll('.post-card').forEach(card => {
+        const cats = card.getAttribute('data-category') || '';
+        if (filter === 'all' || cats.includes(filter)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  /* ── REVEAL ── */
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+</script>
+</body>
+</html>
