@@ -2,7 +2,30 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+  <!-- BASIC SEO -->
+<title>Two-Stage Perfume Manufacturing Workflow | Odoo v18 SOP</title>
+<meta name="description" content="Standardized two-stage perfume manufacturing workflow in Odoo v18 with security configuration, BoM structure, and production segregation." />
+<meta name="keywords" content="Odoo manufacturing, perfume production, SOP, ERP workflow, BoM, manufacturing order, security rules Odoo" />
+<meta name="author" content="Aaqib Bajwa" />
+
+<!-- VIEWPORT -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<!-- OPEN GRAPH (Facebook / WhatsApp / LinkedIn) -->
+<meta property="og:title" content="Two-Stage Perfume Manufacturing Workflow (Odoo v18 SOP)" />
+<meta property="og:description" content="Complete manufacturing SOP for perfume production including mixing, packaging, and Odoo security configuration." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.aaqibbajwa.com/Blogs/manufacturing_segregation.html" />
+<meta property="og:image" content="https://www.aaqibbajwa.com/assets/blog-og.jpg" />
+
+<!-- TWITTER CARD -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Odoo Perfume Manufacturing Workflow SOP" />
+<meta name="twitter:description" content="Two-stage manufacturing process with Odoo v18 security rules and BoM structure." />
+<meta name="twitter:image" content="https://www.aaqibbajwa.com/assets/blog-og.jpg" />
+
+<!-- CANONICAL URL -->
+<link rel="canonical" href="https://www.aaqibbajwa.com/Blogs/manufacturing_segregation.html" />
 <title>Blog Post — Aaqib Bajwa</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -12,15 +35,22 @@ body{
   background:#0b0b0b;
   color:#eaeaea;
   font-family:system-ui, sans-serif;
+  margin:0;
 }
 
 /* NAV */
 nav{
   display:flex;
   justify-content:space-between;
-  padding:18px 40px;
-  border-bottom:1px solid #222;
+  align-items:center;
+  padding:18px 30px;
+  border-bottom:1px solid #1e1e1e;
+  background:#0b0b0b;
+  position:sticky;
+  top:0;
+  z-index:10;
 }
+
 nav a{
   color:#aaa;
   text-decoration:none;
@@ -28,9 +58,9 @@ nav a{
 }
 nav a:hover{color:#fff}
 
-/* CONTAINER */
+/* CENTER LAYOUT */
 .wrapper{
-  max-width:850px;
+  max-width:750px;
   margin:0 auto;
   padding:60px 20px;
 }
@@ -41,29 +71,36 @@ nav a:hover{color:#fff}
   color:#888;
   letter-spacing:2px;
   text-transform:uppercase;
+  margin-bottom:10px;
 }
 
 h1{
-  font-size:36px;
-  margin:10px 0;
+  font-size:38px;
+  font-weight:700;
+  line-height:1.3;
+  margin-bottom:10px;
 }
 
 .meta{
   font-size:13px;
   color:#777;
-  margin-bottom:30px;
+  margin-bottom:35px;
 }
 
 /* CONTENT */
 .content{
-  font-size:16px;
-  line-height:1.8;
+  font-size:17px;
+  line-height:1.9;
   color:#ddd;
 }
 
+.content p{
+  margin-bottom:16px;
+}
+
 .content h2{
-  margin-top:40px;
-  font-size:22px;
+  margin-top:45px;
+  font-size:24px;
   color:#fff;
 }
 
@@ -74,56 +111,66 @@ h1{
 }
 
 .content ul, .content ol{
-  margin-left:20px;
+  margin-left:22px;
 }
 
+/* CODE BLOCK */
 pre{
   background:#111;
-  padding:15px;
-  border-radius:8px;
-  overflow:auto;
+  padding:18px;
+  border-radius:10px;
   border:1px solid #222;
-  color:#0f0;
+  color:#00ff99;
+  overflow:auto;
+  font-size:13px;
 }
 
-/* BLOCKQUOTE */
+/* QUOTE */
 blockquote{
-  border-left:3px solid #555;
+  border-left:3px solid #444;
   padding-left:15px;
   color:#aaa;
   font-style:italic;
-  margin:20px 0;
+  margin:25px 0;
 }
 
 /* FOOTER */
 footer{
   text-align:center;
-  padding:30px;
-  border-top:1px solid #222;
+  padding:40px 20px;
+  border-top:1px solid #1e1e1e;
   color:#666;
   font-size:12px;
+  margin-top:60px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  h1{font-size:28px;}
+  .wrapper{padding:40px 16px;}
 }
 </style>
 </head>
 
 <body>
 
+<!-- NAV -->
 <nav>
-  <a href="index.html">Aaqib Bajwa</a>
-  <a href="blog.html">← Back to Blog</a>
+  <a href="../index.html">Aaqib Bajwa</a>
+  <a href="../blog.html">← Back to Blog</a>
 </nav>
 
+<!-- CONTENT -->
 <div class="wrapper">
 
-  <!-- HEADER -->
   <div class="category">Odoo · Manufacturing</div>
+
   <h1>Two-Stage Perfume Manufacturing Workflow with Security Configuration</h1>
 
   <div class="meta">
     May 30, 2026 · 10 min read · Aaqib Bajwa
   </div>
 
-  <!-- CONTENT -->
   <div class="content">
 
     <p>
