@@ -1118,7 +1118,68 @@
       `
     }
   ];
+ /* ── OPEN / CLOSE POST ── */
+  function openPost(index) {
+    const post = posts[index];
+    document.getElementById('postContent').innerHTML = `
+      <p class="modal-category">${post.category}</p>
+      <h1 class="modal-title">${post.title}</h1>
+      <p class="modal-meta">${post.date} &nbsp;·&nbsp; ${post.readTime} &nbsp;·&nbsp; Aaqib Bajwa</p>
+      <div class="modal-body">${post.body}</div>
+    `;
+    document.getElementById('postModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('postModal').scrollTo(0, 0);
+  }
 
+  function closePost() {
+    document.getElementById('postModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Attach click handlers to cards
+  document.querySelectorAll('.post-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const idx = parseInt(card.getAttribute('data-post'));
+      openPost(idx);
+    });
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closePost();
+  });
+
+  /* ── FILTER ── */
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      const filter = this.getAttribute('data-filter');
+      document.querySelectorAll('.post-card').forEach(card => {
+        const cats = card.getAttribute('data-category') || '';
+        if (filter === 'all' || cats.includes(filter)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  /* ── REVEAL ── */
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+</script>
 
 </body>
 </html>
