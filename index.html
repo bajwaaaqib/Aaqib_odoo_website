@@ -368,20 +368,91 @@
       #about, #services, #skills, #portfolio, #blog { padding: 5rem 1.5rem; }
       footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; }
     }
+
+    nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.nav-logo {
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: inherit;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        background: var(--dark, #111);
+        padding: 1rem 0;
+        border-radius: 0 0 12px 12px;
+        z-index: 1000;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links a {
+        padding: 1rem 1.5rem;
+        width: 100%;
+    }
+
+    .nav-links a:hover {
+        background: rgba(255,255,255,0.05);
+    }
+}
   </style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="nav-logo">Aaqib Bajwa</a>
-  <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#skills">Skills</a>
-    <a href="#portfolio">Work</a>
-    <a href="#blog">Blog</a>
-    <a href="#contact">Contact</a>
-  </div>
+    <a href="index.html" class="nav-logo">Aaqib Bajwa</a>
+
+    <button class="menu-toggle" id="menuToggle">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <div class="nav-links" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#skills">Skills</a>
+        <a href="#portfolio">Work</a>
+        <a href="#blog">Blog</a>
+        <a href="#contact">Contact</a>
+    </div>
 </nav>
 
 <!-- HERO -->
@@ -669,6 +740,19 @@
       a.style.color = a.getAttribute('href') === '#' + current ? '#f5f4f0' : '';
     });
   });
+
+  const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+
+menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+});
+
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+    });
+});
 </script>
 </body>
 </html>
