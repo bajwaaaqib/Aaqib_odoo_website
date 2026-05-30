@@ -276,7 +276,31 @@
   `
 },
   ];
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
 
+// If no ID in URL, show error
+if (!id) {
+  document.getElementById("postTitle").innerText = "Post ID missing";
+} else {
+
+  const post = posts.find(p =>
+    p.title.toLowerCase().replace(/ /g, "-").includes(id)
+  );
+
+  if (!post) {
+    document.getElementById("postTitle").innerText = "Post not found";
+  } else {
+    document.getElementById("postCategory").innerText = post.category;
+    document.getElementById("postTitle").innerText = post.title;
+    document.getElementById("postMeta").innerText =
+      `${post.date} · ${post.readTime} · Aaqib Bajwa`;
+
+    document.getElementById("postContent").innerHTML = post.body;
+  }
+}
+</script>
 
 </script>
 
