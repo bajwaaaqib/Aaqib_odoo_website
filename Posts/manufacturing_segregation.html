@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog Post — Aaqib Bajwa</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+
+  <style>
+    body {
+      background: #0a0a0a;
+      color: #f5f4f0;
+      font-family: 'Instrument Sans', sans-serif;
+      line-height: 1.8;
+    }
+
+    nav {
+      padding: 1.2rem 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: monospace;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: #aaa;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 800px;
+      padding: 4rem 1.5rem;
+    }
+
+    .category {
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .meta {
+      font-size: 12px;
+      color: #777;
+      margin-bottom: 3rem;
+    }
+
+    .content h2 {
+      margin-top: 2.5rem;
+      font-size: 1.5rem;
+    }
+
+    .content p {
+      margin-bottom: 1.2rem;
+      color: #ddd;
+    }
+
+    .content ul {
+      margin-left: 1.5rem;
+    }
+
+    pre {
+      background: #111;
+      padding: 1rem;
+      overflow-x: auto;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    blockquote {
+      border-left: 2px solid #444;
+      padding-left: 1rem;
+      color: #aaa;
+      font-style: italic;
+      margin: 2rem 0;
+    }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 2rem;
+      text-align: center;
+      font-size: 12px;
+      color: #777;
+    }
+
+    a {
+      color: #aaa;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="blog.html" class="logo">← Back to Blog</a>
+  <a href="index.html" class="logo">Aaqib Bajwa</a>
+</nav>
+
+<!-- BLOG CONTENT -->
+<div class="container">
+
+  <div class="category" id="postCategory">Odoo</div>
+  <h1 id="postTitle">Loading...</h1>
+  <div class="meta" id="postMeta"></div>
+
+  <div class="content" id="postContent"></div>
+
+</div>
+
+<footer>
+  © 2026 — Aaqib Bajwa · Odoo Consultant & Web Developer
+</footer>
+
+<script>
+  // SAME DATA STRUCTURE AS BLOG PAGE
+  const posts = [
+   {
+  category: "Odoo · Manufacturing",
+  title: "Two-Stage Perfume Manufacturing Workflow with Security Configuration",
+  date: "May 30, 2026",
+  readTime: "10 min read",
+  body: `
+    <p>
+      This document defines the standardized two-stage manufacturing workflow in Odoo v18, 
+      covering fragrance production, packaging, manufacturing execution, and system-level security controls.
+      The goal is to ensure accurate costing, traceability, and strict formula confidentiality.
+    </p>
+
+    <h2>1. Overview of Two-Stage Manufacturing</h2>
+    <p>
+      The production process is divided into two controlled phases:
+    </p>
+    <ul>
+      <li><strong>Phase 1:</strong> Fragrance Mixing (Bulk “Juice” Production)</li>
+      <li><strong>Phase 2:</strong> Packaging & Finished Goods Production</li>
+    </ul>
+    <p>
+      This structure ensures that raw formula ingredients remain isolated from packaging operations and improves inventory accuracy.
+    </p>
+
+    <hr/>
+
+    <h2>2. Phase One: Fragrance Mixture BoM (The "Juice")</h2>
+    <p>
+      Example product: <strong>MIX PERFUME A</strong> (Category: Fragrance / All / Mixed)
+    </p>
+
+    <h3>Configuration Steps</h3>
+    <ol>
+      <li>Create Product: MIX PERFUME A</li>
+      <li>Assign Category: Fragrance / All / Mixed</li>
+      <li>Set Product Type: Storable Product</li>
+      <li>Set UoM: KG or Liters</li>
+      <li>Create BoM under Product → Bill of Materials</li>
+      <li>Set BoM Reference: MIXING</li>
+      <li>Add raw materials: Oils, Alcohol, Fixatives</li>
+    </ol>
+
+    <h2>3. Phase Two: Packaging BoM (Finished Goods)</h2>
+    <p>
+      Example product: <strong>PERFUME A 100ml</strong> (Category: Finished Goods)
+    </p>
+
+    <h3>Configuration Steps</h3>
+    <ol>
+      <li>Select Product: PERFUME A 100ml</li>
+      <li>Set Category: Finished Goods</li>
+      <li>Set UoM: PCS</li>
+      <li>Define BoM Quantity (e.g. 192 PCS per Master Carton)</li>
+      <li>Add mixture component: MIX PERFUME A (e.g. 19.2 KG)</li>
+      <li>Add hardware: bottles, pumps, caps, stickers</li>
+      <li>Add packaging: unit boxes, inner boxes, master cartons</li>
+    </ol>
+
+    <hr/>
+
+    <h2>4. Manufacturing Order (MO) Execution Flow</h2>
+
+    <h3>Step 1: Create Packaging MO</h3>
+    <ol>
+      <li>Go to Manufacturing → Operations → Manufacturing Orders</li>
+      <li>Create new MO for PERFUME A 100ml</li>
+      <li>Set quantity (e.g. 192 units)</li>
+      <li>Click Confirm</li>
+    </ol>
+
+    <h3>Step 2: Juice Dependency Handling</h3>
+    <ul>
+      <li><strong>MTO Flow:</strong> Odoo auto-creates MO for MIX PERFUME A</li>
+      <li><strong>Manual Flow:</strong> Create separate MO for MIX PERFUME A first</li>
+    </ul>
+
+    <h3>Step 3: Production Execution</h3>
+    <ol>
+      <li>Produce MIX PERFUME A → consume raw materials → Mark Done</li>
+      <li>Once available, complete PERFUME A 100ml MO</li>
+      <li>Consume bottles, caps, cartons → Mark Done</li>
+    </ol>
+
+    <hr/>
+
+    <h2>5. Security & Access Control Configuration</h2>
+
+    <h3>5.1 Hide Bills of Materials Menu</h3>
+    <p>
+      Restrict BoM visibility for standard users by updating menu visibility rules in:
+      Settings → Technical → User Interface → Menu Items
+    </p>
+
+    <h3>5.2 Record Rules for Manufacturing Orders</h3>
+    <p>Restrict users to their own manufacturing orders using domain filters:</p>
+    <pre>
+['|', ('user_id', '=', user.id), ('create_uid', '=', user.id)]
+    </pre>
+
+    <h3>5.3 Product Category Security (Department Isolation)</h3>
+    <p>
+      Manufacturing access is separated by product category using group-based domains:
+    </p>
+
+    <ul>
+      <li><strong>Formulation Group:</strong> Category 80 only</li>
+      <li><strong>Packaging Group:</strong> Category 61 only</li>
+      <li><strong>Admin Group:</strong> Full access to both</li>
+    </ul>
+
+    <h3>XML View Logic (product filtering in MO)</h3>
+    <p>Product selection in Manufacturing Order is restricted using group-based domains:</p>
+
+    <pre>
+&lt;field name="product_id" groups="Fragrance.Formulation" domain="[('categ_id', 'child_of', 80)]"/&gt;
+&lt;field name="product_id" groups="Finish_goods.raw_material" domain="[('categ_id', 'child_of', 61)]"/&gt;
+&lt;field name="product_id" groups="mrp.group_mrp_manager" domain="[('categ_id', 'child_of', [61, 80])]"/&gt;
+    </pre>
+
+    <hr/>
+
+    <h2>6. Key Security Principles</h2>
+    <ul>
+      <li>Manufacturing users cannot access BoM formulas</li>
+      <li>Formula (Juice) is separated from packaging process</li>
+      <li>Each department sees only assigned product categories</li>
+      <li>Admins retain full visibility across system</li>
+    </ul>
+
+    <h2>7. Maintenance & Audit</h2>
+    <ul>
+      <li>Review security groups quarterly</li>
+      <li>Test with non-admin accounts after changes</li>
+      <li>Ensure no accidental assignment to admin group</li>
+    </ul>
+
+    <blockquote>
+      Always validate security rules using a standard Manufacturing User account. 
+      Odoo administrators bypass record rules by default.
+    </blockquote>
+
+    <hr/>
+
+    
+    <p><strong>System:</strong> Odoo v18 SaaS Enterprise</p>
+    <p><strong>Reference:</strong> Security_Setup_v1.0</p>
+  `
+},
+  ];
+
+  // GET SLUG FROM URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const slug = urlParams.get("slug");
+
+  const post = posts.find(p => p.slug === slug);
+
+  if (post) {
+    document.getElementById("postCategory").innerText = post.category;
+    document.getElementById("postTitle").innerText = post.title;
+    document.getElementById("postMeta").innerText = `${post.date} · ${post.readTime}`;
+    document.getElementById("postContent").innerHTML = post.body;
+  } else {
+    document.getElementById("postTitle").innerText = "Post not found";
+  }
+</script>
+
+</body>
+</html>
