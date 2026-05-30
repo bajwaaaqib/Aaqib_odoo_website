@@ -277,20 +277,7 @@
 },
   ];
 
-  // GET SLUG FROM URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const slug = urlParams.get("slug");
 
-  const post = posts.find(p => p.slug === slug);
-
-  if (post) {
-    document.getElementById("postCategory").innerText = post.category;
-    document.getElementById("postTitle").innerText = post.title;
-    document.getElementById("postMeta").innerText = `${post.date} · ${post.readTime}`;
-    document.getElementById("postContent").innerHTML = post.body;
-  } else {
-    document.getElementById("postTitle").innerText = "Post not found";
-  }
 </script>
 
 </body>
