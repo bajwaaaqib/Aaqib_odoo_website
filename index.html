@@ -358,7 +358,7 @@
     /* RESPONSIVE */
     @media (max-width: 768px) {
       nav { padding: 1.2rem 1.5rem; }
-      .nav-links { display: none; }
+     
       #hero { padding: 0 1.5rem 4rem; }
       .hero-bg-text { font-size: 5rem; }
       .about-grid, #contact { grid-template-columns: 1fr; gap: 3rem; }
@@ -368,6 +368,49 @@
       #about, #services, #skills, #portfolio, #blog { padding: 5rem 1.5rem; }
       footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; }
     }
+
+    .menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    background: rgba(10,10,10,0.98);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 1rem 0;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links a {
+    margin: 0;
+    padding: 1rem 1.5rem;
+    display: block;
+  }
+
+  .nav-links a:hover {
+    background: rgba(255,255,255,0.04);
+  }
+}
   </style>
 </head>
 <body>
@@ -383,6 +426,8 @@
     <a href="#contact">Contact</a>
   </div>
 </nav>
+
+  
 
 <!-- HERO -->
 <section id="hero">
@@ -669,6 +714,20 @@
       a.style.color = a.getAttribute('href') === '#' + current ? '#f5f4f0' : '';
     });
   });
+
+  const menuToggle = document.getElementById('menuToggle');
+const navMenu = document.getElementById('navLinks');
+
+menuToggle.addEventListener('click', () => {
+  navMenu.classList.toggle('active');
+});
+
+// Close menu when a link is clicked
+document.querySelectorAll('#navLinks a').forEach(link => {
+  link.addEventListener('click', () => {
+    navMenu.classList.remove('active');
+  });
+});
 </script>
 </body>
 </html>
