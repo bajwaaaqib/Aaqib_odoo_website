@@ -124,10 +124,16 @@
   © 2026 — Aaqib Bajwa · Odoo Consultant & Web Developer
 </footer>
 
-<script>
-  // SAME DATA STRUCTURE AS BLOG PAGE
-  const posts = [
-   {
+<div class="category">Odoo · Manufacturing</div>
+
+<h1>Two-Stage Perfume Manufacturing Workflow with Security Configuration</h1>
+
+<div class="meta">
+  May 30, 2026 · 10 min read · Aaqib Bajwa
+</div>
+
+<div class="content">
+  
   category: "Odoo · Manufacturing",
   title: "Two-Stage Perfume Manufacturing Workflow with Security Configuration",
   date: "May 30, 2026",
@@ -273,36 +279,10 @@
     
     <p><strong>System:</strong> Odoo v18 SaaS Enterprise</p>
     <p><strong>Reference:</strong> Security_Setup_v1.0</p>
-  `
-},
-  ];
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get("id");
+  
 
-// If no ID in URL, show error
-if (!id) {
-  document.getElementById("postTitle").innerText = "Post ID missing";
-} else {
 
-  const post = posts.find(p =>
-    p.title.toLowerCase().replace(/ /g, "-").includes(id)
-  );
 
-  if (!post) {
-    document.getElementById("postTitle").innerText = "Post not found";
-  } else {
-    document.getElementById("postCategory").innerText = post.category;
-    document.getElementById("postTitle").innerText = post.title;
-    document.getElementById("postMeta").innerText =
-      `${post.date} · ${post.readTime} · Aaqib Bajwa`;
-
-    document.getElementById("postContent").innerHTML = post.body;
-  }
-}
-</script>
-
-</script>
 
 </body>
 </html>
