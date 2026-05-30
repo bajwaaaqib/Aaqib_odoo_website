@@ -2,29 +2,24 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-  <!-- BASIC SEO -->
 <title>Two-Stage Perfume Manufacturing Workflow | Odoo v18 SOP</title>
 <meta name="description" content="Standardized two-stage perfume manufacturing workflow in Odoo v18 with security configuration, BoM structure, and production segregation." />
 <meta name="keywords" content="Odoo manufacturing, perfume production, SOP, ERP workflow, BoM, manufacturing order, security rules Odoo" />
 <meta name="author" content="Aaqib Bajwa" />
 
-<!-- VIEWPORT -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<!-- OPEN GRAPH (Facebook / WhatsApp / LinkedIn) -->
 <meta property="og:title" content="Two-Stage Perfume Manufacturing Workflow (Odoo v18 SOP)" />
 <meta property="og:description" content="Complete manufacturing SOP for perfume production including mixing, packaging, and Odoo security configuration." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.aaqibbajwa.com/Blogs/manufacturing_segregation.html" />
 <meta property="og:image" content="https://www.aaqibbajwa.com/assets/blog-og.jpg" />
 
-<!-- TWITTER CARD -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Odoo Perfume Manufacturing Workflow SOP" />
 <meta name="twitter:description" content="Two-stage manufacturing process with Odoo v18 security rules and BoM structure." />
 <meta name="twitter:image" content="https://www.aaqibbajwa.com/assets/blog-og.jpg" />
 
-<!-- CANONICAL URL -->
 <link rel="canonical" href="https://www.aaqibbajwa.com/Blogs/manufacturing_segregation.html" />
 <title>Blog Post — Aaqib Bajwa</title>
 
@@ -102,6 +97,8 @@ h1{
   margin-top:45px;
   font-size:24px;
   color:#fff;
+  border-bottom: 1px solid #1e1e1e;
+  padding-bottom: 8px;
 }
 
 .content h3{
@@ -112,6 +109,11 @@ h1{
 
 .content ul, .content ol{
   margin-left:22px;
+  margin-bottom: 20px;
+}
+
+.content li{
+  margin-bottom: 4px;
 }
 
 /* CODE BLOCK */
@@ -123,6 +125,7 @@ pre{
   color:#00ff99;
   overflow:auto;
   font-size:13px;
+  margin: 20px 0;
 }
 
 /* QUOTE */
@@ -154,13 +157,11 @@ footer{
 
 <body>
 
-<!-- NAV -->
 <nav>
   <a href="../index.html">Aaqib Bajwa</a>
   <a href="../blog.html">← Back to Blog</a>
 </nav>
 
-<!-- CONTENT -->
 <div class="wrapper">
 
   <div class="category">Odoo · Manufacturing</div>
@@ -174,61 +175,130 @@ footer{
   <div class="content">
 
     <p>
-      This document defines a standardized two-stage manufacturing workflow in Odoo v18,
-      covering fragrance production, packaging, execution flow, and security configuration.
+      This document defines the standardized two-stage manufacturing workflow in Odoo v18, 
+      covering fragrance production, packaging, manufacturing execution, and system-level security controls. 
+      The goal is to ensure accurate costing, traceability, and strict formula confidentiality.
     </p>
 
-    <h2>1. Overview</h2>
+    <h2>1. Overview of Two-Stage Manufacturing</h2>
     <p>
-      Production is divided into two phases: bulk fragrance mixing and finished goods packaging.
+      The production process is divided into two controlled phases:
+    </p>
+    <ul>
+      <li><strong>Phase 1:</strong> Fragrance Mixing (Bulk “Juice” Production)</li>
+      <li><strong>Phase 2:</strong> Packaging & Finished Goods Production</li>
+    </ul>
+    <p>
+      This structure ensures that raw formula ingredients remain isolated from packaging operations and improves inventory accuracy.
     </p>
 
+    <h2>2. Phase One: Fragrance Mixture BoM (The "Juice")</h2>
+    <p>
+      Example product: <strong>MIX PERFUME A</strong> (Category: Fragrance / All / Mixed)
+    </p>
+
+    <h3>Configuration Steps</h3>
+    <ol>
+      <li>Create Product: <strong>MIX PERFUME A</strong></li>
+      <li>Assign Category: <code>Fragrance / All / Mixed</code></li>
+      <li>Set Product Type: <code>Storable Product</code></li>
+      <li>Set UoM: <code>KG</code> or <code>Liters</code></li>
+      <li>Create BoM under Product &rarr; Bill of Materials</li>
+      <li>Set BoM Reference: <code>MIXING</code></li>
+      <li>Add raw materials: Oils, Alcohol, Fixatives</li>
+    </ol>
+
+    <h2>3. Phase Two: Packaging BoM (Finished Goods)</h2>
+    <p>
+      Example product: <strong>PERFUME A 100ml</strong> (Category: Finished Goods)
+    </p>
+
+    <h3>Configuration Steps</h3>
+    <ol>
+      <li>Select Product: <strong>PERFUME A 100ml</strong></li>
+      <li>Set Category: <code>Finished Goods</code></li>
+      <li>Set UoM: <code>PCS</code></li>
+      <li>Define BoM Quantity (e.g., <code>192 PCS</code> per Master Carton)</li>
+      <li>Add mixture component: <strong>MIX PERFUME A</strong> (e.g., <code>19.2 KG</code>)</li>
+      <li>Add hardware: bottles, pumps, caps, stickers</li>
+      <li>Add packaging: unit boxes, inner boxes, master cartons</li>
+    </ol>
+
+    <h2>4. Manufacturing Order (MO) Execution Flow</h2>
+
+    <h3>Step 1: Create Packaging MO</h3>
+    <ol>
+      <li>Go to Manufacturing &rarr; Operations &rarr; Manufacturing Orders</li>
+      <li>Create new MO for <strong>PERFUME A 100ml</strong></li>
+      <li>Set quantity (e.g., <code>192 units</code>)</li>
+      <li>Click <strong>Confirm</strong></li>
+    </ol>
+
+    <h3>Step 2: Juice Dependency Handling</h3>
     <ul>
-      <li>Phase 1: Fragrance Mixing (Bulk Production)</li>
-      <li>Phase 2: Packaging (Finished Goods)</li>
+      <li><strong>MTO Flow:</strong> Odoo automatically creates an MO for <strong>MIX PERFUME A</strong>.</li>
+      <li><strong>Manual Flow:</strong> Create a separate MO for <strong>MIX PERFUME A</strong> first.</li>
     </ul>
 
-    <h2>2. Phase One: Fragrance Mixing</h2>
-    <p><b>Product:</b> FRAGRANCE MIX</p>
-
+    <h3>Step 3: Production Execution</h3>
     <ol>
-      <li>Create storable product</li>
-      <li>Set UoM (KG / Liters)</li>
-      <li>Create BoM (Mixing)</li>
-      <li>Add raw materials</li>
+      <li>Produce <strong>MIX PERFUME A</strong> &rarr; consume raw materials &rarr; Mark Done</li>
+      <li>Once available, complete the <strong>PERFUME A 100ml</strong> MO</li>
+      <li>Consume bottles, caps, cartons &rarr; Mark Done</li>
     </ol>
 
-    <h2>3. Phase Two: Packaging</h2>
-    <p><b>Product:</b> PERFUME 100ml</p>
+    <h2>5. Security & Access Control Configuration</h2>
 
-    <ol>
-      <li>Set product as finished goods</li>
-      <li>Define BoM quantity</li>
-      <li>Add FRAGRANCE MIX + packaging materials</li>
-    </ol>
+    <h3>5.1 Hide Bills of Materials Menu</h3>
+    <p>
+      Restrict BoM visibility for standard users by updating menu visibility rules in:<br>
+      <code>Settings &rarr; Technical &rarr; User Interface &rarr; Menu Items</code>
+    </p>
 
-    <h2>4. Manufacturing Flow</h2>
+    <h3>5.2 Record Rules for Manufacturing Orders</h3>
+    <p>Restrict users to their own manufacturing orders using domain filters:</p>
+    <pre>['|', ('user_id', '=', user.id), ('create_uid', '=', user.id)]</pre>
 
-    <h3>Step 1</h3>
-    <p>Create Manufacturing Order for finished product</p>
+    <h3>5.3 Product Category Security (Department Isolation)</h3>
+    <p>
+      Manufacturing access is separated by product category using group-based domains:
+    </p>
+    <ul>
+      <li><strong>Formulation Group:</strong> Category 80 only</li>
+      <li><strong>Packaging Group:</strong> Category 61 only</li>
+      <li><strong>Admin Group:</strong> Full access to both</li>
+    </ul>
 
-    <h3>Step 2</h3>
-    <p>System generates bulk MO or create manually</p>
+    <h3>XML View Logic (Product Filtering in MO)</h3>
+    <p>Product selection in the Manufacturing Order is restricted using group-based domains:</p>
 
-    <h3>Step 3</h3>
-    <p>Produce bulk → then packaging → finish order</p>
+<pre>&lt;field name="product_id" groups="Fragrance.Formulation" domain="[('categ_id', 'child_of', 80)]"/&gt;
+&lt;field name="product_id" groups="Finish_goods.raw_material" domain="[('categ_id', 'child_of', 61)]"/&gt;
+&lt;field name="product_id" groups="mrp.group_mrp_manager" domain="[('categ_id', 'child_of', [61, 80])]"/&gt;</pre>
 
-    <h2>5. Security Rules</h2>
+    <h2>6. Key Security Principles</h2>
+    <ul>
+      <li>Manufacturing users cannot access BoM formulas.</li>
+      <li>Formula (Juice) is strictly separated from the packaging process.</li>
+      <li>Each department sees only its assigned product categories.</li>
+      <li>Admins retain full visibility across the system.</li>
+    </ul>
 
-    <p>Restrict manufacturing orders to user ownership:</p>
-
-    <pre>
-['|', ('user_id', '=', user.id), ('create_uid', '=', user.id)]
-    </pre>
+    <h2>7. Maintenance & Audit</h2>
+    <ul>
+      <li>Review security groups quarterly.</li>
+      <li>Test with non-admin accounts after any configuration changes.</li>
+      <li>Ensure no accidental assignments are made to the admin group.</li>
+    </ul>
 
     <blockquote>
-      Always test record rules with non-admin users.
+      Always validate security rules using a standard Manufacturing User account. Odoo administrators bypass record rules by default.
     </blockquote>
+    
+    <p style="margin-top: 30px; font-size: 14px; color: #888;">
+      <strong>System:</strong> Odoo v18 SaaS Enterprise<br>
+      <strong>Reference:</strong> Security_Setup_v1.0
+    </p>
 
   </div>
 
