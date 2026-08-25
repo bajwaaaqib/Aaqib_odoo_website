@@ -24,6 +24,7 @@ html, body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh; /* Adapts properly to mobile browser viewports */
 }
 
 /* Header */
@@ -70,7 +71,11 @@ html, body {
   white-space: nowrap;
 }
 #header .status.error { color: var(--error-text); }
-#header .actions { display: flex; gap: 8px; flex-shrink: 0; }
+#header .actions { 
+  display: flex; 
+  gap: 8px; 
+  flex-shrink: 0; 
+}
 #header button {
   background: var(--editor-bg);
   color: var(--text);
@@ -79,6 +84,7 @@ html, body {
   padding: 6px 12px;
   font-size: 12.5px;
   cursor: pointer;
+  white-space: nowrap;
 }
 #header button:hover { background: #161b22; border-color: #374151; }
 #header button.primary {
@@ -156,6 +162,7 @@ html, body {
   cursor: col-resize;
   background: var(--panel-border);
   flex-shrink: 0;
+  touch-action: none;
 }
 #resizer:hover, #resizer.active { background: var(--accent); }
 
@@ -201,6 +208,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  touch-action: none;
 }
 #canvas.grabbing { cursor: grabbing; }
 #stage { transform-origin: center center; }
@@ -220,4 +228,42 @@ html, body {
   left: 0;
   right: 0;
   z-index: 5;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  #header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 8px 12px;
+  }
+  
+  #header .actions {
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #main {
+    flex-direction: column;
+  }
+
+  #editor-pane {
+    width: 100% !important;
+    height: 45%;
+    min-width: 0;
+    max-width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--panel-border);
+  }
+
+  #resizer {
+    width: 100%;
+    height: 8px;
+    cursor: row-resize;
+  }
+
+  #preview-pane {
+    height: 55%;
+  }
 }
