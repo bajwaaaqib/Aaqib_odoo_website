@@ -351,12 +351,12 @@ window.addEventListener('touchend', stopPan);
 canvas.addEventListener('wheel', (e) => {
   e.preventDefault();
   const delta = e.deltaY > 0 ? -0.08 : 0.08;
-  scale = Math.min(7, Math.max(0.25, scale + delta));
+  scale = Math.max(0.01, scale + delta);
   applyTransform();
 }, { passive: false });
 
-document.getElementById('zoomIn').onclick = () => { scale = Math.min(3, scale + 0.15); applyTransform(); };
-document.getElementById('zoomOut').onclick = () => { scale = Math.max(0.25, scale - 0.15); applyTransform(); };
+document.getElementById('zoomIn').onclick = () => { scale += 0.15; applyTransform(); };
+document.getElementById('zoomOut').onclick = () => { scale = Math.max(0.01, scale - 0.15); applyTransform(); };
 document.getElementById('zoomReset').onclick = () => { scale = 1; originX = 0; originY = 0; applyTransform(); };
 
 // --- Copy code ---
