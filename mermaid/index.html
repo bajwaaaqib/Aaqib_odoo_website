@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Mermaid Editor</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="app">
+  <div id="header">
+    <div class="title">
+      <span class="dot" id="statusDot"></span>
+      <span class="name" id="fileName">untitled.mmd</span>
+      <span class="status" id="status">rendered</span>
+    </div>
+    <div class="actions">
+      <input type="file" id="fileInput" accept=".mmd,.mermaid,.txt" hidden />
+      <button id="openBtn">Open .mmd</button>
+      <button id="newBtn">New</button>
+      <button id="copyBtn">Copy code</button>
+      <button id="downloadSvgBtn">Export SVG</button>
+      <button id="saveBtn" class="primary">Save</button>
+    </div>
+  </div>
+
+  <div id="main">
+    <div id="editor-pane">
+      <div class="pane-label">Code</div>
+      <div id="codeWrap">
+        <div id="lineNumbers">1</div>
+        <textarea id="code" spellcheck="false"></textarea>
+      </div>
+    </div>
+
+    <div id="resizer"></div>
+
+    <div id="preview-pane">
+      <div class="pane-label">
+        <span>Preview</span>
+        <div id="zoomControls">
+          <button id="zoomOut">−</button>
+          <button id="zoomReset">⤾</button>
+          <button id="zoomIn">+</button>
+        </div>
+      </div>
+      <div id="canvas">
+        <div id="errorBox"></div>
+        <div id="stage"><div id="diagram"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="script.js"></script>
+</body>
+</html>
