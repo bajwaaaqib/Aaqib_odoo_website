@@ -56,11 +56,11 @@ const DEFAULT_CODE = `erDiagram
 
     HR_EMPLOYEE {
         int id PK
-        string name
-        string work_email
-        string work_phone
-        string job_title
-        boolean active
+        char name
+        char work_email
+        char work_phone
+        char job_title
+        char active
         int department_id FK
         int job_id FK
         int company_id FK
@@ -79,8 +79,7 @@ const DEFAULT_CODE = `erDiagram
 
     HR_DEPARTMENT {
         int id PK
-        string name
-        string complete_name
+        char name
         int manager_id FK
         int parent_id FK
         int company_id FK
@@ -88,30 +87,28 @@ const DEFAULT_CODE = `erDiagram
 
     HR_JOB {
         int id PK
-        string name
+        char name
         int department_id FK
         int company_id FK
-        int no_of_recruitment
-        string state
+        char state
     }
 
     HR_EMPLOYEE_CATEGORY {
         int id PK
-        string name
-        string color
+        char name
     }
 
     RES_COMPANY {
         int id PK
-        string name
+        char name
         int partner_id FK
     }
 
     HR_WORK_LOCATION {
         int id PK
-        string name
+        char name
         int company_id FK
-        string location_type "home / office / other"
+        char location_type "home / office / other"
     }
 
     RES_USERS {
@@ -123,34 +120,26 @@ const DEFAULT_CODE = `erDiagram
 
     RESOURCE_RESOURCE {
         int id PK
-        string name
+        char name
         int calendar_id FK
         int company_id FK
-        string resource_type "user / material"
     }
 
     RESOURCE_CALENDAR {
         int id PK
-        string name
-        int company_id FK
-        float hours_per_day
-        string tz
+        char name
     }
 
     RES_PARTNER_BANK {
         int id PK
-        string acc_number
+        char acc_number
         int partner_id FK
         int bank_id FK
     }
 
     RES_PARTNER {
         int id PK
-        string name
-        string email
-        string phone
-        string street
-        string city
+        char name
         int company_id FK
     }`;
 
