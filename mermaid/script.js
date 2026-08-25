@@ -351,7 +351,7 @@ window.addEventListener('touchend', stopPan);
 canvas.addEventListener('wheel', (e) => {
   e.preventDefault();
   const delta = e.deltaY > 0 ? -0.08 : 0.08;
-  scale = Math.min(3, Math.max(0.25, scale + delta));
+  scale = Math.min(7, Math.max(0.25, scale + delta));
   applyTransform();
 }, { passive: false });
 
