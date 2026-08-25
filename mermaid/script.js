@@ -251,53 +251,103 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
-// --- Resizable split ---
+// --- Resizable split (Supports Mouse and Touch) ---
 const resizer = document.getElementById('resizer');
 const editorPane = document.getElementById('editor-pane');
 let resizing = false;
-resizer.addEventListener('mousedown', () => {
+
+function startResize() {
   resizing = true;
   resizer.classList.add('active');
   document.body.style.userSelect = 'none';
-});
-window.addEventListener('mousemove', (e) => {
+}
+
+function stopResize() {
   if (!resizing) return;
-  const totalWidth = document.getElementById('main').getBoundingClientRect().width;
-  let newWidth = e.clientX;
-  const min = 260, max = totalWidth * 0.75;
-  newWidth = Math.max(min, Math.min(max, newWidth));
-  editorPane.style.width = newWidth + 'px';
-});
-window.addEventListener('mouseup', () => {
   resizing = false;
   resizer.classList.remove('active');
   document.body.style.userSelect = '';
-});
+}
 
-// --- Pan & zoom on preview ---
+function handlePointerMove(clientX, clientY) {
+  if (!resizing) return;
+  const mainRect = document.getElementById('main').getBoundingClientRect();
+  const isMobile = window.innerWidth <= 768;
+
+  if (isMobile) {
+    let newHeight = clientY - mainRect.top;
+    const min = 100, max = mainRect.height * 0.8;
+    newHeight = Math.max(min, Math.min(max, newHeight));
+    editorPane.style.height = newHeight + 'px';
+  } else {
+    let newWidth = clientX - mainRect.left;
+    const min = 260, max = mainRect.width * 0.75;
+    newWidth = Math.max(min, Math.min(max, newWidth));
+    editorPane.style.width = newWidth + 'px';
+  }
+}
+
+resizer.addEventListener('mousedown', startResize);
+window.addEventListener('mouseup', stopResize);
+window.addEventListener('mousemove', (e) => handlePointerMove(e.clientX, e.clientY));
+
+resizer.addEventListener('touchstart', (e) => {
+  startResize();
+}, { passive: true });
+window.addEventListener('touchend', stopResize);
+window.addEventListener('touchmove', (e) => {
+  if (resizing && e.touches.length > 0) {
+    handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+  }
+}, { passive: true });
+
+// --- Pan & zoom on preview (Supports Touch Panning) ---
 let scale = 1, originX = 0, originY = 0;
 let isPanning = false, startX = 0, startY = 0;
 
 function applyTransform() {
   stage.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
 }
-canvas.addEventListener('mousedown', (e) => {
-  if (e.target.closest('#zoomControls')) return;
+
+function startPan(clientX, clientY) {
   isPanning = true;
   canvas.classList.add('grabbing');
-  startX = e.clientX - originX;
-  startY = e.clientY - originY;
-});
-window.addEventListener('mousemove', (e) => {
+  startX = clientX - originX;
+  startY = clientY - originY;
+}
+
+function movePan(clientX, clientY) {
   if (!isPanning) return;
-  originX = e.clientX - startX;
-  originY = e.clientY - startY;
+  originX = clientX - startX;
+  originY = clientY - startY;
   applyTransform();
-});
-window.addEventListener('mouseup', () => {
+}
+
+function stopPan() {
   isPanning = false;
   canvas.classList.remove('grabbing');
+}
+
+canvas.addEventListener('mousedown', (e) => {
+  if (e.target.closest('#zoomControls')) return;
+  startPan(e.clientX, e.clientY);
 });
+window.addEventListener('mousemove', (e) => movePan(e.clientX, e.clientY));
+window.addEventListener('mouseup', stopPan);
+
+canvas.addEventListener('touchstart', (e) => {
+  if (e.target.closest('#zoomControls') || e.touches.length > 1) return;
+  startPan(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: true });
+
+window.addEventListener('touchmove', (e) => {
+  if (isPanning && e.touches.length === 1) {
+    movePan(e.touches[0].clientX, e.touches[0].clientY);
+  }
+}, { passive: true });
+
+window.addEventListener('touchend', stopPan);
+
 canvas.addEventListener('wheel', (e) => {
   e.preventDefault();
   const delta = e.deltaY > 0 ? -0.08 : 0.08;
