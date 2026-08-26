@@ -423,11 +423,11 @@ flowchart TD
         statusText.innerText = label;
     }
 
-    // CORS-Safe JSON-RPC Executor
+    // Multi-Proxy JSON-RPC Engine for Odoo SaaS & Custom Instances
     async function callOdooJsonRpc(baseUrl, payload) {
         const endpoint = `${baseUrl}/jsonrpc`;
 
-        // 1. Direct fetch (works if Odoo or its reverse proxy allows cross-origin calls)
+        // Attempt 1: Direct Request
         try {
             const res = await fetch(endpoint, {
                 method: "POST",
@@ -435,20 +435,52 @@ flowchart TD
                 body: JSON.stringify(payload)
             });
             if (res.ok) return await res.json();
-        } catch (err) {
-            // Intercept browser CORS restriction when running from GitHub Pages
+        } catch (e) {
+            // Intercept direct cross-domain CORS block
         }
 
-        // 2. CORS Proxy Fallback
-        const proxyEndpoint = `https://corsproxy.io/?${encodeURIComponent(endpoint)}`;
-        const proxyRes = await fetch(proxyEndpoint, {
+        // Attempt 2: CodeTabs Proxy (Optimized for Odoo SaaS POST payloads)
+        try {
+            const proxy1 = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(endpoint)}`;
+            const res1 = await fetch(proxy1, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            if (res1.ok) return await res1.json();
+        } catch (e) {
+            // Fallthrough to next proxy
+        }
+
+        // Attempt 3: ThingProxy Relay
+        try {
+            const proxy2 = `https://thingproxy.freeboard.io/fetch/${endpoint}`;
+            const res2 = await fetch(proxy2, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            if (res2.ok) return await res2.json();
+        } catch (e) {
+            // Fallthrough
+        }
+
+        // Attempt 4: CorsAnywhere Public Gateway
+        const proxy3 = `https://cors-anywhere.herokuapp.com/${endpoint}`;
+        const res3 = await fetch(proxy3, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
             body: JSON.stringify(payload)
         });
 
-        if (!proxyRes.ok) throw new Error(`Proxy network HTTP failure (${proxyRes.status})`);
-        return await proxyRes.json();
+        if (!res3.ok) {
+            throw new Error(`CORS proxy failed with HTTP ${res3.status}. Access denied by target host.`);
+        }
+
+        return await res3.json();
     }
 
     // Main Metadata Synchronization Pipeline
@@ -465,7 +497,6 @@ flowchart TD
             return;
         }
 
-        // Ensure scheme exists for HTTPS GitHub Pages security
         if (!/^https?:\/\//i.test(url)) {
             url = 'https://' + url;
         }
@@ -475,7 +506,7 @@ flowchart TD
         setStatus('connecting', 'Connecting…');
 
         try {
-            // Authentication Request
+            // Step 1: Login Request
             const authData = await callOdooJsonRpc(url, {
                 jsonrpc: "2.0", method: "call",
                 params: { service: "common", method: "login", args: [db, user, password] }, id: 1
@@ -486,13 +517,13 @@ flowchart TD
 
             if (!uid) {
                 setStatus('disconnected', 'Connection Failed');
-                showError('Odoo authentication failed. Verify database name and credentials.');
+                showError('Odoo authentication failed. Check credentials or database name.');
                 return;
             }
 
             setStatus('connected', 'Connected');
 
-            // Model Inspection Request
+            // Step 2: Fetch Model Fields Metadata
             const fieldsData = await callOdooJsonRpc(url, {
                 jsonrpc: "2.0", method: "call",
                 params: {
