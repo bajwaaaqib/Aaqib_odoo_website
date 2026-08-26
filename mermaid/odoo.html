@@ -107,7 +107,7 @@
 
 <header>
     <div class="logo">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 17 22 12"></polyline></svg>
         Mermaid Live Editor (Odoo Integrated)
     </div>
     <div class="top-actions">
@@ -269,6 +269,7 @@ flowchart TD
             const svgElement = wrapper.querySelector('svg');
             if (svgElement) {
                 svgElement.removeAttribute('height');
+
                 panZoomInstance = svgPanZoom(svgElement, {
                     zoomEnabled: true,
                     controlIconsEnabled: false,
@@ -422,11 +423,11 @@ flowchart TD
         statusText.innerText = label;
     }
 
-    // Smart Fetcher with Automatic CORS Proxy Fallback
-    async function postJsonRpc(targetUrl, payload) {
-        const endpoint = `${targetUrl}/jsonrpc`;
-        
-        // Attempt Direct Connection First
+    // CORS-Safe JSON-RPC Executor
+    async function callOdooJsonRpc(baseUrl, payload) {
+        const endpoint = `${baseUrl}/jsonrpc`;
+
+        // 1. Direct fetch (works if Odoo or its reverse proxy allows cross-origin calls)
         try {
             const res = await fetch(endpoint, {
                 method: "POST",
@@ -435,32 +436,38 @@ flowchart TD
             });
             if (res.ok) return await res.json();
         } catch (err) {
-            // Direct request blocked by CORS; route through Corsproxy fallback
+            // Intercept browser CORS restriction when running from GitHub Pages
         }
 
-        // Proxy Fallback for Cross-Origin Requests
-        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(endpoint)}`;
-        const proxyRes = await fetch(proxyUrl, {
+        // 2. CORS Proxy Fallback
+        const proxyEndpoint = `https://corsproxy.io/?${encodeURIComponent(endpoint)}`;
+        const proxyRes = await fetch(proxyEndpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
 
-        if (!proxyRes.ok) throw new Error(`Proxy network error: ${proxyRes.statusText}`);
+        if (!proxyRes.ok) throw new Error(`Proxy network HTTP failure (${proxyRes.status})`);
         return await proxyRes.json();
     }
 
+    // Main Metadata Synchronization Pipeline
     async function fetchOdooMetadata() {
-        const baseUrl = document.getElementById('odoo_url').value.replace(/\/+$/, "");
+        let url = document.getElementById('odoo_url').value.trim().replace(/\/+$/, "");
         const db = document.getElementById('odoo_db').value.trim();
         const user = document.getElementById('odoo_user').value.trim();
         const password = document.getElementById('odoo_pass').value;
         const model = document.getElementById('odoo_model').value.toLowerCase().trim();
 
-        if (!baseUrl || !db || !user) {
+        if (!url || !db || !user) {
             showError('Fill in Server URL, Database and Username in Odoo Config first.');
             openOdooSettings();
             return;
+        }
+
+        // Ensure scheme exists for HTTPS GitHub Pages security
+        if (!/^https?:\/\//i.test(url)) {
+            url = 'https://' + url;
         }
 
         const syncBtn = document.getElementById('sync-btn');
@@ -468,7 +475,8 @@ flowchart TD
         setStatus('connecting', 'Connecting…');
 
         try {
-            const authData = await postJsonRpc(baseUrl, {
+            // Authentication Request
+            const authData = await callOdooJsonRpc(url, {
                 jsonrpc: "2.0", method: "call",
                 params: { service: "common", method: "login", args: [db, user, password] }, id: 1
             });
@@ -478,13 +486,14 @@ flowchart TD
 
             if (!uid) {
                 setStatus('disconnected', 'Connection Failed');
-                showError('Odoo authentication failed. Check credentials.');
+                showError('Odoo authentication failed. Verify database name and credentials.');
                 return;
             }
 
             setStatus('connected', 'Connected');
 
-            const fieldsData = await postJsonRpc(baseUrl, {
+            // Model Inspection Request
+            const fieldsData = await callOdooJsonRpc(url, {
                 jsonrpc: "2.0", method: "call",
                 params: {
                     service: "object", method: "execute_kw",
