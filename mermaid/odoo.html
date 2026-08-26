@@ -220,7 +220,6 @@ flowchart TD
     let panZoomInstance = null;
     let renderCounter = 0;
 
-    // Safe default config; whatever is in the Config tab gets merged on top after validation.
     const DEFAULT_MERMAID_CONFIG = { startOnLoad: false, theme: 'default', securityLevel: 'strict' };
     mermaid.initialize(DEFAULT_MERMAID_CONFIG);
 
@@ -261,8 +260,6 @@ flowchart TD
                 panZoomInstance = null;
             }
 
-            // Use a fresh id on every render so mermaid doesn't collide with
-            // detached nodes it leaves behind from prior render attempts.
             renderCounter += 1;
             const renderId = `interactive-svg-${renderCounter}`;
             const { svg } = await mermaid.render(renderId, code);
@@ -272,7 +269,6 @@ flowchart TD
             const svgElement = wrapper.querySelector('svg');
             if (svgElement) {
                 svgElement.removeAttribute('height');
-
                 panZoomInstance = svgPanZoom(svgElement, {
                     zoomEnabled: true,
                     controlIconsEnabled: false,
@@ -283,18 +279,14 @@ flowchart TD
                 });
             }
         } catch (err) {
-            // Only surface errors once the user has paused typing (debounced caller),
-            // so mid-edit incomplete syntax doesn't flash a scary banner.
             showError('Diagram error: ' + (err && err.message ? err.message : String(err)));
         }
     }
 
-    // Zoom Handlers
     function zoomIn() { if (panZoomInstance) panZoomInstance.zoomIn(); }
     function zoomOut() { if (panZoomInstance) panZoomInstance.zoomOut(); }
     function resetZoom() { if (panZoomInstance) { panZoomInstance.resetZoom(); panZoomInstance.center(); } }
 
-    // Tab Handlers
     function switchTab(tab) {
         document.getElementById('tab-code-btn').classList.toggle('active', tab === 'code');
         document.getElementById('tab-config-btn').classList.toggle('active', tab === 'config');
@@ -303,13 +295,12 @@ flowchart TD
         if (tab === 'code') renderDiagram();
     }
 
-    // Toggle Actions Popup
     function toggleActionsMenu(evt) {
         if (evt) evt.stopPropagation();
         const pop = document.getElementById('actions-popover');
         pop.style.display = pop.style.display === 'block' ? 'none' : 'block';
     }
-    // Close the popover when clicking anywhere outside it.
+
     document.addEventListener('click', (evt) => {
         const pop = document.getElementById('actions-popover');
         if (pop.style.display === 'block' && !pop.contains(evt.target)) {
@@ -324,16 +315,11 @@ flowchart TD
         fetchOdooMetadata();
     }
 
-    // Turns "hr.employee" into a safe Mermaid node/entity identifier.
-    // Mermaid identifiers should be alphanumeric/underscore only, so anything
-    // odd coming from a model name or an Odoo field name is stripped rather
-    // than interpolated verbatim (avoids breaking or injecting into the diagram).
     function toMermaidId(raw) {
         const cleaned = String(raw || '').replace(/[^a-zA-Z0-9_]/g, '_').replace(/^_+|_+$/g, '');
         return cleaned || 'MODEL';
     }
 
-    // Diagram Dropdown Change Handler
     function handleDiagramSelect(type) {
         const rawModel = document.getElementById('odoo_model').value;
         const model = toMermaidId(rawModel).toUpperCase();
@@ -358,7 +344,6 @@ flowchart TD
         renderDiagram();
     }
 
-    // Export Handlers
     function downloadBlob(content, filename, type) {
         const blob = new Blob([content], { type: type });
         const url = URL.createObjectURL(blob);
@@ -379,18 +364,7 @@ flowchart TD
     }
 
     function exportHTML() {
-        const html = `<!DOCTYPE html>
-<html>
-<head>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"><\/script>
-</head>
-<body>
-  <pre class="mermaid">
-${codeArea.value}
-  </pre>
-  <script>mermaid.initialize({ startOnLoad: true, securityLevel: 'strict' });<\/script>
-</body>
-</html>`;
+        const html = `<!DOCTYPE html>\n<html>\n<head>\n  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"><\/script>\n</head>\n<body>\n  <pre class="mermaid">\n${codeArea.value}\n  </pre>\n  <script>mermaid.initialize({ startOnLoad: true, securityLevel: 'strict' });<\/script>\n</body>\n</html>`;
         downloadBlob(html, `${currentModelSlug()}_diagram.html`, 'text/html;charset=utf-8');
     }
 
@@ -405,9 +379,6 @@ ${codeArea.value}
         const svgElement = wrapper.querySelector('svg');
         if (!svgElement) { showError('Nothing to export yet — render a diagram first.'); return; }
 
-        // The live SVG has no explicit width/height (removed for pan-zoom), so
-        // pull real dimensions from its viewBox/bbox before rasterizing —
-        // otherwise the loaded <img> reports 0x0 and the PNG comes out blank.
         const clone = svgElement.cloneNode(true);
         let w = svgElement.viewBox && svgElement.viewBox.baseVal && svgElement.viewBox.baseVal.width;
         let h = svgElement.viewBox && svgElement.viewBox.baseVal && svgElement.viewBox.baseVal.height;
@@ -423,7 +394,7 @@ ${codeArea.value}
 
         const svgData = new XMLSerializer().serializeToString(clone);
         const canvas = document.createElement('canvas');
-        const scale = 2; // render at 2x for a crisper PNG
+        const scale = 2;
         canvas.width = w * scale;
         canvas.height = h * scale;
         const ctx = canvas.getContext('2d');
@@ -451,17 +422,42 @@ ${codeArea.value}
         statusText.innerText = label;
     }
 
-    // Direct Odoo Connection & Status Updater
-    async function fetchOdooMetadata() {
-        const url = document.getElementById('odoo_url').value.replace(/\/+$/, "");
-        const db = document.getElementById('odoo_db').value;
-        const user = document.getElementById('odoo_user').value;
-        const password = document.getElementById('odoo_pass').value;
-        // "hr.employee" -> "hr.employee" stays as-is; any underscores the user
-        // typed become dots (was previously only replacing the FIRST match).
-        const model = document.getElementById('odoo_model').value.toLowerCase().trim().replace(/_/g, '.');
+    // Smart Fetcher with Automatic CORS Proxy Fallback
+    async function postJsonRpc(targetUrl, payload) {
+        const endpoint = `${targetUrl}/jsonrpc`;
+        
+        // Attempt Direct Connection First
+        try {
+            const res = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            if (res.ok) return await res.json();
+        } catch (err) {
+            // Direct request blocked by CORS; route through Corsproxy fallback
+        }
 
-        if (!url || !db || !user) {
+        // Proxy Fallback for Cross-Origin Requests
+        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(endpoint)}`;
+        const proxyRes = await fetch(proxyUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        if (!proxyRes.ok) throw new Error(`Proxy network error: ${proxyRes.statusText}`);
+        return await proxyRes.json();
+    }
+
+    async function fetchOdooMetadata() {
+        const baseUrl = document.getElementById('odoo_url').value.replace(/\/+$/, "");
+        const db = document.getElementById('odoo_db').value.trim();
+        const user = document.getElementById('odoo_user').value.trim();
+        const password = document.getElementById('odoo_pass').value;
+        const model = document.getElementById('odoo_model').value.toLowerCase().trim();
+
+        if (!baseUrl || !db || !user) {
             showError('Fill in Server URL, Database and Username in Odoo Config first.');
             openOdooSettings();
             return;
@@ -472,40 +468,30 @@ ${codeArea.value}
         setStatus('connecting', 'Connecting…');
 
         try {
-            const authRes = await fetch(`${url}/jsonrpc`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    jsonrpc: "2.0", method: "call",
-                    params: { service: "common", method: "login", args: [db, user, password] }, id: 1
-                })
+            const authData = await postJsonRpc(baseUrl, {
+                jsonrpc: "2.0", method: "call",
+                params: { service: "common", method: "login", args: [db, user, password] }, id: 1
             });
-            if (!authRes.ok) throw new Error(`Server responded ${authRes.status}`);
-            const authData = await authRes.json();
+
             if (authData.error) throw new Error(authData.error.data?.message || 'Login rejected by Odoo.');
             const uid = authData.result;
 
             if (!uid) {
                 setStatus('disconnected', 'Connection Failed');
-                showError('Odoo authentication failed. Check the server URL, database, username and password.');
+                showError('Odoo authentication failed. Check credentials.');
                 return;
             }
 
             setStatus('connected', 'Connected');
 
-            const fieldsRes = await fetch(`${url}/jsonrpc`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    jsonrpc: "2.0", method: "call",
-                    params: {
-                        service: "object", method: "execute_kw",
-                        args: [db, uid, password, model, "fields_get", [], { attributes: ["string", "type", "relation"] }]
-                    }, id: 2
-                })
+            const fieldsData = await postJsonRpc(baseUrl, {
+                jsonrpc: "2.0", method: "call",
+                params: {
+                    service: "object", method: "execute_kw",
+                    args: [db, uid, password, model, "fields_get", [], { attributes: ["string", "type", "relation"] }]
+                }, id: 2
             });
-            if (!fieldsRes.ok) throw new Error(`Server responded ${fieldsRes.status}`);
-            const fieldsData = await fieldsRes.json();
+
             if (fieldsData.error) throw new Error(fieldsData.error.data?.message || `Could not read fields for model "${model}".`);
             const fields = fieldsData.result || {};
 
@@ -514,9 +500,6 @@ ${codeArea.value}
             let rels = [];
 
             for (const [f_name, f_info] of Object.entries(fields)) {
-                // Sanitize every piece coming from Odoo before it lands in the
-                // Mermaid source — field/type/relation names are external data
-                // and could otherwise break the diagram syntax.
                 const safeName = toMermaidId(f_name).toLowerCase();
                 const safeType = toMermaidId(f_info.type).toLowerCase() || 'string';
                 code += `        ${safeType} ${safeName}\n`;
@@ -534,13 +517,12 @@ ${codeArea.value}
 
         } catch (e) {
             setStatus('disconnected', 'Disconnected');
-            showError('Error connecting to Odoo: ' + e.message + '\n(If the request never reached the server, this is usually a CORS restriction on the Odoo instance rather than a code bug.)');
+            showError('Error connecting to Odoo: ' + e.message);
         } finally {
             syncBtn.disabled = false;
         }
     }
 
-    // Auto Render Debounce
     let timer;
     codeArea.addEventListener('input', () => {
         clearTimeout(timer);
