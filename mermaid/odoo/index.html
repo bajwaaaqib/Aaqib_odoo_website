@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Odoo 18 Development Manual</title>
+<style>
+  :root{
+    --bg:#000000;
+    --ink:#ffffff;
+    --paper:#000000;
+    --line:#ffffff;
+    --gray-1:#ededed;
+    --gray-2:#c7c7c7;
+    --gray-3:#8f8f8f;
+    --gray-4:#5c5c5c;
+    --gray-5:#2e2e2e;
+    --gray-6:#131313;
+    --mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.6;
+  }
+
+  a{color:var(--ink);}
+
+  /* ---------- Layout ---------- */
+  .shell{display:block; min-height:100vh;}
+
+  .content{
+    max-width:980px;
+    margin:0 auto;
+    padding:0;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:90px 64px 60px 64px;
+    border-bottom:1px solid var(--ink);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--gray-3);
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-family:var(--mono);
+    font-size:56px;
+    line-height:1.05;
+    margin:0 0 20px 0;
+    letter-spacing:-0.02em;
+    max-width:900px;
+  }
+  .hero h1 .dim{color:var(--gray-4);}
+  .hero p.lead{
+    max-width:680px;
+    font-size:17px;
+    color:var(--gray-2);
+    margin:0 0 30px 0;
+  }
+  .hero .badges{display:flex; gap:10px; flex-wrap:wrap;}
+  .badge{
+    font-family:var(--mono);
+    font-size:11.5px;
+    border:1px solid var(--ink);
+    padding:5px 11px;
+    letter-spacing:.03em;
+  }
+  .badge.filled{background:var(--ink); color:var(--bg);}
+
+  .terminal-deco{
+    margin-top:40px;
+    max-width:720px;
+    border:1px solid var(--ink);
+    background:var(--gray-1);
+    color:#eee;
+    font-family:var(--mono);
+    font-size:13px;
+  }
+  .terminal-deco .bar{
+    display:flex; gap:6px;
+    padding:9px 12px;
+    border-bottom:1px solid #444;
+  }
+  .terminal-deco .dot{width:9px;height:9px;border-radius:50%;background:#666;}
+  .terminal-deco pre{margin:0; padding:16px 18px; overflow-x:auto; color:#e6e6e6;}
+  .terminal-deco .p{color:#9c9c9c;}
+  .terminal-deco .c{color:#fff;}
+
+  /* ---------- Sections ---------- */
+  section.doc{
+    padding:56px 64px;
+    border-bottom:1px solid var(--gray-5);
+    max-width:980px;
+  }
+  section.doc:last-child{border-bottom:none;}
+
+  .sec-num{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--gray-3);
+    letter-spacing:.15em;
+  }
+  section.doc h2{
+    font-family:var(--mono);
+    font-size:30px;
+    margin:6px 0 8px 0;
+    letter-spacing:-0.01em;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:14px;
+  }
+  section.doc h3{
+    font-family:var(--mono);
+    font-size:19px;
+    margin:34px 0 10px 0;
+  }
+  section.doc h4{
+    font-family:var(--mono);
+    font-size:15px;
+    margin:22px 0 8px 0;
+    color:var(--gray-1);
+  }
+  section.doc p{color:var(--gray-1); font-size:15px; max-width:820px;}
+  section.doc > p.desc{color:var(--gray-2); font-size:15.5px; margin-top:0;}
+
+  .note{
+    border-left:3px solid var(--ink);
+    background:var(--gray-6);
+    padding:12px 16px;
+    font-size:13.5px;
+    margin:16px 0;
+    max-width:780px;
+  }
+  .note strong{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; display:block; margin-bottom:4px;}
+
+  .warn{
+    border-left:3px solid var(--gray-3);
+    background:var(--bg);
+    border:1px dashed var(--gray-3);
+    padding:12px 16px;
+    font-size:13.5px;
+    margin:16px 0;
+    max-width:780px;
+  }
+  .warn strong{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; display:block; margin-bottom:4px;}
+
+  code{
+    font-family:var(--mono);
+    background:var(--gray-6);
+    padding:1px 6px;
+    font-size:.87em;
+    border:1px solid var(--gray-5);
+  }
+
+  pre{
+    background:#0b0b0b;
+    color:#f2f2f2;
+    font-family:var(--mono);
+    font-size:12.8px;
+    line-height:1.65;
+    padding:18px 20px;
+    overflow-x:auto;
+    border:1px solid var(--ink);
+    margin:14px 0 22px 0;
+    max-width:860px;
+    position:relative;
+  }
+  pre code{background:none; border:none; padding:0; color:inherit; font-size:inherit;}
+  .code-label{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--gray-3);
+    margin:18px 0 -8px 0;
+    display:block;
+  }
+
+  table{
+    border-collapse:collapse;
+    width:100%;
+    max-width:860px;
+    margin:14px 0 24px 0;
+    font-size:13.5px;
+  }
+  th,td{
+    border:1px solid var(--gray-5);
+    padding:9px 12px;
+    text-align:left;
+    vertical-align:top;
+  }
+  th{
+    background:var(--ink);
+    color:var(--bg);
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+  }
+  tr:nth-child(even) td{background:var(--gray-6);}
+
+  ul,ol{max-width:820px; font-size:15px; color:var(--gray-1);}
+  li{margin-bottom:6px;}
+
+  .filetree{
+    font-family:var(--mono);
+    font-size:13px;
+    background:var(--gray-6);
+    border:1px solid var(--ink);
+    padding:18px 20px;
+    line-height:1.75;
+    max-width:640px;
+    white-space:pre;
+    overflow-x:auto;
+  }
+  .filetree .fold{color:var(--ink); font-weight:700;}
+  .filetree .fname{color:var(--gray-3);}
+  .filetree .cmt{color:var(--gray-4);}
+
+  .step{
+    display:flex;
+    gap:16px;
+    margin:20px 0;
+    max-width:860px;
+  }
+  .step .num{
+    font-family:var(--mono);
+    font-size:13px;
+    flex:0 0 30px;
+    height:30px;
+    border:1px solid var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .step .body{flex:1;}
+  .step .body h4{margin:2px 0 6px 0;}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:900px;}
+  @media (max-width:900px){.grid2{grid-template-columns:1fr;}}
+
+  .tag-pill{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:10.5px;
+    border:1px solid var(--gray-3);
+    color:var(--gray-2);
+    padding:2px 8px;
+    margin-right:6px;
+    letter-spacing:.05em;
+  }
+
+  footer{
+    padding:40px 64px 70px 64px;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--gray-3);
+    border-top:1px solid var(--ink);
+  }
+
+  .back-top{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:11.5px;
+    margin-top:30px;
+    border:1px solid var(--ink);
+    padding:6px 12px;
+    text-decoration:none;
+  }
+  .back-top:hover{background:var(--ink); color:var(--bg);}
+
+  ::selection{background:#fff; color:#000;}
+
+  @media (max-width:860px){
+    .hero{padding:70px 22px 36px 22px;}
+    .hero h1{font-size:34px;}
+    section.doc{padding:40px 22px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <main class="content">
+
+    <header class="hero" id="intro">
+      <div class="eyebrow">/ odoo 18 · community &amp; enterprise / a manual for freshers</div>
+      <h1>Odoo 18 <span class="dim">Development</span><br>Manual.</h1>
+      <p class="lead">A single-page reference for building custom Odoo 18 addons — from installing the server on Windows, Linux and GitHub Codespaces, to the file structure, XML views, menus, security rules, QWeb reports, controllers and the external API. Written for someone opening an Odoo module for the first time.</p>
+      <div class="badges">
+        <span class="badge filled">ODOO 18.0</span>
+        <span class="badge">COMMUNITY</span>
+        <span class="badge">ENTERPRISE</span>
+        <span class="badge">PYTHON 3.10+</span>
+        <span class="badge">POSTGRESQL 12–17</span>
+      </div>
+
+      <div class="terminal-deco">
+        <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <pre><span class="p">$</span> <span class="c">./odoo-bin -c odoo.conf -d mydb -u my_module --dev=all</span>
+<span class="p">›</span> odoo.modules.loading: loading my_module
+<span class="p">›</span> odoo.service.server: HTTP service running on 0.0.0.0:8069</pre>
+      </div>
+    </header>
+
+    <!-- ================= INSTALL WINDOWS ================= -->
+    <section class="doc" id="install-windows">
+      <div class="sec-num">01 / GETTING STARTED</div>
+      <h2>Install Odoo 18 on Windows</h2>
+      <p class="desc">Two options exist: the one-click Windows installer (fastest, good for trying Odoo) or a source install (recommended for development, since you can edit code and add custom addons directly).</p>
+
+      <h3>Option A — Windows installer (quick start)</h3>
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Download the installer</h4>
+          <p>Get the <code>.exe</code> for Odoo 18 from <code>odoo.com/page/download</code>. It bundles Python, PostgreSQL and all dependencies — nothing else to install.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="body">
+          <h4>Run the setup wizard</h4>
+          <p>Accept defaults for the install path, PostgreSQL port and Odoo port (<code>8069</code>). The installer registers Odoo as a Windows service, so it starts automatically on boot.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="body">
+          <h4>Open Odoo</h4>
+          <p>Visit <code>http://localhost:8069</code> in your browser and create your first database.</p>
+        </div>
+      </div>
+      <div class="warn"><strong>Limitation</strong>The installer build is meant for evaluation. For real addon development, use the source install below — it gives you a visible, editable <code>addons/</code> folder and lets you restart the server from a terminal with debug flags.</div>
+
+      <h3>Option B — Source install (recommended for developers)</h3>
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Install Python 3.10+</h4>
+          <p>Download from <code>python.org</code>. During setup, tick <strong>"Add Python to PATH"</strong>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="body">
+          <h4>Install PostgreSQL</h4>
+          <p>Install PostgreSQL 15/16 from <code>postgresql.org</code>. Create a database superuser, e.g. <code>odoo</code>, with a password you'll remember — this becomes <code>db_user</code> / <code>db_password</code> in <code>odoo.conf</code>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="body">
+          <h4>Install Git and clone the source</h4>
+          <span class="code-label">powershell</span>
+          <pre><code>git clone https://github.com/odoo/odoo.git --branch 18.0 --depth 1 C:\odoo18</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="body">
+          <h4>Install wkhtmltopdf</h4>
+          <p>Needed for PDF report rendering (QWeb → PDF). Install the Odoo-patched build (version <code>0.12.6</code>) — the stock wkhtmltopdf breaks headers/footers in reports.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">5</div>
+        <div class="body">
+          <h4>Create a virtual environment &amp; install requirements</h4>
+          <span class="code-label">powershell</span>
+          <pre><code>cd C:\odoo18
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">6</div>
+        <div class="body">
+          <h4>Run the server</h4>
+          <span class="code-label">powershell</span>
+          <pre><code>python odoo-bin -r odoo -w yourpassword --addons-path=addons -d mydb</code></pre>
+          <p>Open <code>http://localhost:8069</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= INSTALL LINUX ================= -->
+    <section class="doc" id="install-linux">
+      <div class="sec-num">02 / GETTING STARTED</div>
+      <h2>Install Odoo 18 on Linux (Ubuntu/Debian)</h2>
+      <p class="desc">Source install, so you get a proper development setup with an editable addons path and a dedicated system user.</p>
+
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Update &amp; install system dependencies</h4>
+          <span class="code-label">bash</span>
+          <pre><code>sudo apt update &amp;&amp; sudo apt upgrade -y
+sudo apt install -y git python3-pip build-essential wget python3-dev \
+  python3-venv python3-wheel libxslt-dev libzip-dev libldap2-dev \
+  libsasl2-dev python3-setuptools node-less libjpeg-dev zlib1g-dev \
+  libpq-dev libxml2-dev libffi-dev</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="body">
+          <h4>Install &amp; configure PostgreSQL</h4>
+          <span class="code-label">bash</span>
+          <pre><code>sudo apt install -y postgresql
+sudo -u postgres createuser -s $USER
+# or create a dedicated role for odoo:
+sudo -u postgres createuser --createdb --pwprompt odoo18</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="body">
+          <h4>Create a system user for Odoo (optional but recommended)</h4>
+          <span class="code-label">bash</span>
+          <pre><code>sudo adduser --system --home=/opt/odoo18 --group odoo18</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="body">
+          <h4>Clone Odoo source</h4>
+          <span class="code-label">bash</span>
+          <pre><code>sudo git clone https://github.com/odoo/odoo.git --branch 18.0 --depth 1 /opt/odoo18/odoo</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">5</div>
+        <div class="body">
+          <h4>Virtual environment &amp; Python dependencies</h4>
+          <span class="code-label">bash</span>
+          <pre><code>cd /opt/odoo18/odoo
+python3 -m venv odoo-venv
+source odoo-venv/bin/activate
+pip3 install wheel
+pip3 install -r requirements.txt</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">6</div>
+        <div class="body">
+          <h4>Install wkhtmltopdf (for reports)</h4>
+          <span class="code-label">bash</span>
+          <pre><code>sudo apt install -y wkhtmltopdf   # or the Odoo-patched .deb for 0.12.6</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">7</div>
+        <div class="body">
+          <h4>Create your custom addons folder</h4>
+          <span class="code-label">bash</span>
+          <pre><code>mkdir -p /opt/odoo18/custom-addons</code></pre>
+          <p>This is where <em>your</em> modules live, kept separate from Odoo's own <code>addons/</code> — see <a href="#custom-addons">section 05</a>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">8</div>
+        <div class="body">
+          <h4>Run from source (development mode)</h4>
+          <span class="code-label">bash</span>
+          <pre><code>./odoo-bin --addons-path=addons,/opt/odoo18/custom-addons \
+  -r odoo18 -w yourpassword -d mydb</code></pre>
+          <p>Visit <code>http://localhost:8069</code>. For a permanent setup, write an <code>odoo.conf</code> and a <code>systemd</code> service — see <a href="#odoo-conf">07</a> and <a href="#service-log">08</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= INSTALL CODESPACES ================= -->
+    <section class="doc" id="install-codespace">
+      <div class="sec-num">03 / GETTING STARTED</div>
+      <h2>Run Odoo 18 in GitHub Codespaces</h2>
+      <p class="desc">Codespaces gives you a full Linux dev container in the browser — no local setup, good for freshers who just want to write module code fast.</p>
+
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Fork/create a repository</h4>
+          <p>Create a GitHub repo for your custom addons (e.g. <code>my-odoo-addons</code>), or fork <code>odoo/odoo</code> if you also want the core source editable.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="body">
+          <h4>Open a Codespace</h4>
+          <p>On the repo page: <strong>Code → Codespaces → Create codespace on main</strong>. Choose a machine type with at least 4 cores / 8 GB RAM — Odoo plus PostgreSQL is heavier than a typical web app.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="body">
+          <h4>Add a devcontainer (recommended)</h4>
+          <p>Create <code>.devcontainer/devcontainer.json</code> so the environment rebuilds identically every time:</p>
+          <span class="code-label">.devcontainer/devcontainer.json</span>
+          <pre><code>{
+  "name": "odoo18-dev",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": { "version": "3.11" },
+    "ghcr.io/devcontainers-contrib/features/postgres-asdf:1": {}
+  },
+  "forwardPorts": [8069, 5432],
+  "postCreateCommand": "bash .devcontainer/setup.sh"
+}</code></pre>
+          <span class="code-label">.devcontainer/setup.sh</span>
+          <pre><code>#!/bin/bash
+sudo apt-get update
+sudo apt-get install -y git python3-dev libxslt-dev libzip-dev \
+  libldap2-dev libsasl2-dev libpq-dev wkhtmltopdf
+sudo service postgresql start
+sudo -u postgres createuser -s $(whoami) || true
+git clone https://github.com/odoo/odoo.git --branch 18.0 --depth 1 odoo
+python3 -m venv venv
+source venv/bin/activate
+pip install -r odoo/requirements.txt</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="body">
+          <h4>Start the server</h4>
+          <span class="code-label">bash</span>
+          <pre><code>source venv/bin/activate
+./odoo/odoo-bin --addons-path=odoo/addons,custom-addons -d mydb</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">5</div>
+        <div class="body">
+          <h4>Open the forwarded port</h4>
+          <p>Codespaces auto-detects port <code>8069</code> and offers "Open in Browser" — set its visibility to <strong>Public</strong> temporarily if you need to share a demo link.</p>
+        </div>
+      </div>
+      <div class="note"><strong>Why Codespaces is handy for freshers</strong>You get a disposable, identical Linux environment every time — no "works on my machine" issues, and you can throw the codespace away and rebuild it in minutes if you break your Python environment.</div>
+    </section>
+
+    <!-- ================= FILE STRUCTURE ================= -->
+    <section class="doc" id="file-structure">
+      <div class="sec-num">04 / PROJECT LAYOUT</div>
+      <h2>Odoo file structure (server root)</h2>
+      <p class="desc">This is what the cloned <code>odoo/</code> source tree looks like — you rarely edit these folders directly; instead you point <code>addons-path</code> at your own custom addons directory.</p>
+
+      <div class="filetree">odoo18/
+├── <span class="fold">odoo-bin</span>                  <span class="cmt"># entry point script — starts the server</span>
+├── <span class="fold">odoo/</span>                     <span class="cmt"># core framework (ORM, http, tools, fields...)</span>
+│   ├── addons/                <span class="cmt"># base modules shipped with the framework</span>
+│   ├── cli/
+│   ├── fields.py
+│   ├── models.py
+│   ├── http.py
+│   └── modules/
+├── <span class="fold">addons/</span>                   <span class="cmt"># official Community apps (sale, stock, hr...)</span>
+├── <span class="fold">enterprise/</span>                <span class="cmt"># Enterprise apps — separate repo, needs a license</span>
+├── requirements.txt
+├── setup.py
+└── debian/, doc/, ...</span></div>
+
+      <table>
+        <tr><th>path</th><th>purpose</th></tr>
+        <tr><td><code>odoo-bin</code></td><td>The executable you run: <code>./odoo-bin -c odoo.conf</code>. Boots the server, loads config, loads modules.</td></tr>
+        <tr><td><code>odoo/</code></td><td>The framework itself: ORM, ir.* system models, HTTP routing, QWeb engine, tools. Do not edit.</td></tr>
+        <tr><td><code>addons/</code></td><td>Official Community modules — <code>base</code>, <code>web</code>, <code>sale</code>, <code>stock</code>, <code>account</code>, etc.</td></tr>
+        <tr><td><code>enterprise/</code></td><td>Enterprise-only apps (Studio, Accounting extras, Helpdesk, Sign...) — a separate git repo cloned alongside; requires a valid Enterprise subscription/license key to activate.</td></tr>
+      </table>
+
+      <div class="note"><strong>Community vs Enterprise</strong>Both editions share the exact same core (<code>odoo/</code>) and the exact same module structure/APIs described in this manual. Enterprise simply adds an extra addons-path (the <code>enterprise/</code> folder) with more modules and a different web theme. Anything you learn here about models, views, security and reports applies identically to both.</div>
+    </section>
+
+    <!-- ================= CUSTOM ADDONS ================= -->
+    <section class="doc" id="custom-addons">
+      <div class="sec-num">05 / PROJECT LAYOUT</div>
+      <h2>Where your custom addons folder goes</h2>
+      <p class="desc">Never place your own modules inside Odoo's <code>addons/</code> folder — it makes upgrades painful and mixes your code with core code. Instead, keep a sibling folder and register it via <code>addons_path</code>.</p>
+
+      <div class="filetree">/opt/odoo18/                      <span class="cmt"># a common layout on a Linux server</span>
+├── <span class="fold">odoo/</span>                       <span class="cmt"># core source (cloned from github)</span>
+│   └── addons/
+├── <span class="fold">enterprise/</span>                 <span class="cmt"># optional, Enterprise modules</span>
+├── <span class="fold">custom-addons/</span>              <span class="cmt"># ← YOUR modules live here</span>
+│   ├── my_first_module/
+│   └── my_second_module/
+├── odoo-venv/                    <span class="cmt"># python virtual environment</span
+><span class="fold">.</span>
+├── odoo.conf
+└── odoo-data/                    <span class="cmt"># filestore, sessions (filestore path)</span></div>
+
+      <span class="code-label">odoo.conf — register the custom path</span>
+      <pre><code>[options]
+addons_path = /opt/odoo18/odoo/addons,/opt/odoo18/enterprise,/opt/odoo18/custom-addons</code></pre>
+
+      <div class="note"><strong>Rule of thumb</strong>List paths from most "core" to most "custom": Odoo addons → Enterprise → your custom-addons. If two folders define a module with the same technical name, the one found <em>first</em> on the path wins — so keep your custom modules uniquely named (e.g. prefix with your company code: <code>acme_sale_extension</code>).</div>
+    </section>
+
+    <!-- ================= MODULE STRUCTURE ================= -->
+    <section class="doc" id="module-structure">
+      <div class="sec-num">06 / PROJECT LAYOUT</div>
+      <h2>Anatomy of a single module</h2>
+      <p class="desc">Every Odoo addon is just a Python package (a folder with an <code>__init__.py</code>) plus a <code>__manifest__.py</code> descriptor. This is the conventional layout used across almost every real-world module.</p>
+
+      <div class="filetree">custom-addons/
+└── <span class="fold">my_first_module/</span>
+    ├── __init__.py             <span class="cmt"># imports the models/ package</span>
+    ├── __manifest__.py         <span class="cmt"># module descriptor (see §09)</span>
+    ├── <span class="fold">models/</span>
+    │   ├── __init__.py         <span class="cmt"># imports each model file</span>
+    │   └── my_model.py
+    ├── <span class="fold">views/</span>
+    │   ├── my_model_views.xml  <span class="cmt"># form/list/search views</span
+><span class="fold">.</span>
+    │   └── my_model_menus.xml  <span class="cmt"># menu items + window actions</span>
+    ├── <span class="fold">security/</span>
+    │   ├── ir.model.access.csv <span class="cmt"># model-level access rights</span>
+    │   └── my_model_security.xml <span class="cmt"># groups + record rules</span>
+    ├── <span class="fold">controllers/</span>
+    │   ├── __init__.py
+    │   └── main.py             <span class="cmt"># custom HTTP routes</span>
+    ├── <span class="fold">report/</span>
+    │   ├── my_report.xml       <span class="cmt"># QWeb report template</span>
+    │   └── my_report_action.xml
+    ├── <span class="fold">wizard/</span>            <span class="cmt"># transient models for popups</span>
+    │   ├── __init__.py
+    │   └── my_wizard.py
+    ├── <span class="fold">data/</span>              <span class="cmt"># demo/seed XML or CSV data</span>
+    │   └── my_model_data.xml
+    ├── <span class="fold">static/</span>
+    │   ├── <span class="fold">description/</span>
+    │   │   ├── icon.png        <span class="cmt"># module icon in Apps list</span>
+    │   │   └── index.html
+    │   └── <span class="fold">src/</span>
+    │       ├── js/
+    │       ├── scss/
+    │       └── xml/            <span class="cmt"># OWL component templates</span>
+    └── i18n/                   <span class="cmt"># .pot / .po translation files</span></div>
+
+      <table>
+        <tr><th>folder / file</th><th>what it holds</th></tr>
+        <tr><td><code>__init__.py</code> (root)</td><td>Usually just <code>from . import models, controllers, wizard</code>.</td></tr>
+        <tr><td><code>models/</code></td><td>Python classes inheriting <code>models.Model</code>, <code>models.TransientModel</code> or extending existing ones.</td></tr>
+        <tr><td><code>views/</code></td><td>XML defining how records are displayed: form, list, kanban, search, calendar...</td></tr>
+        <tr><td><code>security/</code></td><td><code>ir.model.access.csv</code> (CRUD per group) and optional record rules / group definitions.</td></tr>
+        <tr><td><code>controllers/</code></td><td>Python classes exposing custom URLs via <code>@http.route</code>.</td></tr>
+        <tr><td><code>report/</code></td><td>QWeb templates rendered to PDF/HTML, plus the <code>ir.actions.report</code> record.</td></tr>
+        <tr><td><code>wizard/</code></td><td>Transient models backing pop-up dialogs (e.g. "Confirm" wizards).</td></tr>
+        <tr><td><code>data/</code></td><td>Non-demo XML/CSV loaded on install — sequences, mail templates, default records.</td></tr>
+        <tr><td><code>static/description/icon.png</code></td><td>128×128 PNG shown for the module in <strong>Apps</strong>.</td></tr>
+      </table>
+      <div class="note"><strong>Naming convention</strong>Model <code>x_project.task.extra</code> → Python file <code>models/project_task_extra.py</code> → view file <code>views/project_task_extra_views.xml</code>. Consistent naming is what keeps a module readable six months later.</div>
+    </section>
+
+    <!-- ================= ODOO.CONF ================= -->
+    <section class="doc" id="odoo-conf">
+      <div class="sec-num">07 / PROJECT LAYOUT</div>
+      <h2>odoo.conf — the server configuration file</h2>
+      <p class="desc">A plain INI file read at startup with <code>-c /path/to/odoo.conf</code>. It replaces long command-line flags for a permanent install.</p>
+
+      <span class="code-label">/etc/odoo18.conf</span>
+      <pre><code>[options]
+; ----- database -----
+db_host = localhost
+db_port = 5432
+db_user = odoo18
+db_password = your_db_password
+;dbfilter = ^mydb$          ; restrict which DB(s) this instance can see
+
+; ----- addons -----
+addons_path = /opt/odoo18/odoo/addons,/opt/odoo18/enterprise,/opt/odoo18/custom-addons
+
+; ----- network -----
+xmlrpc_port = 8069          ; main HTTP port (called http_port in 17+)
+;gevent_port = 8072         ; longpolling / websocket port
+
+; ----- filesystem -----
+data_dir = /opt/odoo18/odoo-data     ; filestore, sessions
+
+; ----- process / performance -----
+workers = 4                 ; 0 = dev mode (single-threaded, auto-reload friendly)
+max_cron_threads = 2
+limit_time_cpu = 600
+limit_time_real = 1200
+
+; ----- security -----
+admin_passwd = a_strong_master_password   ; protects db manage screens
+
+; ----- logging -----
+logfile = /var/log/odoo18/odoo.log
+log_level = info            ; debug, info, warn, error
+</code></pre>
+
+      <table>
+        <tr><th>key</th><th>meaning</th></tr>
+        <tr><td><code>addons_path</code></td><td>Comma-separated folders scanned for modules — this is where you add your custom-addons directory.</td></tr>
+        <tr><td><code>admin_passwd</code></td><td>The "master password" used on the database manager screen (create/drop/duplicate/backup DB) — <strong>not</strong> a user login.</td></tr>
+        <tr><td><code>workers</code></td><td><code>0</code> for development (auto-reload, easier debugging); a positive number (e.g. 2×CPU cores + 1) for production multi-processing.</td></tr>
+        <tr><td><code>dbfilter</code></td><td>Regex limiting which databases this Odoo instance will serve — important once you have several customers/databases on one server.</td></tr>
+        <tr><td><code>data_dir</code></td><td>Where the filestore (uploaded attachments/images) and sessions are stored on disk.</td></tr>
+        <tr><td><code>logfile</code> / <code>log_level</code></td><td>Where logs are written and how verbose they are — see next section.</td></tr>
+      </table>
+      <div class="warn"><strong>Fresher tip</strong>During development, run with <code>workers = 0</code> and add <code>--dev=all</code> on the command line — this enables auto-reload on file save and better tracebacks in the browser.</div>
+    </section>
+
+    <!-- ================= SERVICE & LOG ================= -->
+    <section class="doc" id="service-log">
+      <div class="sec-num">08 / PROJECT LAYOUT</div>
+      <h2>Running Odoo as a service, and reading logs</h2>
+
+      <h3>systemd service (Linux)</h3>
+      <p>Instead of running <code>./odoo-bin</code> in a terminal you leave open, register Odoo as a background service that survives reboots.</p>
+      <span class="code-label">/etc/systemd/system/odoo18.service</span>
+      <pre><code>[Unit]
+Description=Odoo18
+Requires=postgresql.service
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+SyslogIdentifier=odoo18
+PermissionsStartOnly=true
+User=odoo18
+Group=odoo18
+ExecStart=/opt/odoo18/odoo-venv/bin/python3 \
+  /opt/odoo18/odoo/odoo-bin -c /etc/odoo18.conf
+StandardOutput=journal+console
+Restart=always
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+
+      <span class="code-label">bash — enable &amp; control the service</span>
+      <pre><code>sudo systemctl daemon-reload
+sudo systemctl enable --now odoo18       # start on boot + start now
+sudo systemctl restart odoo18            # after a code/config change
+sudo systemctl status odoo18             # is it running?
+sudo journalctl -u odoo18 -f             # live service logs (via journald)</code></pre>
+
+      <h3>Log files</h3>
+      <p>If <code>logfile</code> is set in <code>odoo.conf</code>, Odoo writes there instead of stdout. Tail it while developing:</p>
+      <span class="code-label">bash</span>
+      <pre><code>tail -f /var/log/odoo18/odoo.log
+grep -i error /var/log/odoo18/odoo.log
+grep -i "my_module" /var/log/odoo18/odoo.log</code></pre>
+
+      <table>
+        <tr><th>log level</th><th>use</th></tr>
+        <tr><td><code>debug</code></td><td>Everything, including SQL-adjacent internals — very verbose, dev only.</td></tr>
+        <tr><td><code>info</code></td><td>Default — module loading, HTTP requests, cron runs.</td></tr>
+        <tr><td><code>warn</code></td><td>Only warnings and errors — good for a quiet production log.</td></tr>
+        <tr><td><code>error</code></td><td>Only failures — tracebacks, unhandled exceptions.</td></tr>
+      </table>
+      <div class="note"><strong>Where to look first when something breaks</strong>90% of module install/upgrade errors show a Python traceback at the <em>end</em> of the log right after a line like <code>odoo.modules.registry: Failed to load registry</code>. Scroll to the bottom of the traceback, not the top — the last line is usually the real cause.</div>
+    </section>
+
+    <!-- ================= MANIFEST ================= -->
+    <section class="doc" id="manifest">
+      <div class="sec-num">09 / MODULE ANATOMY</div>
+      <h2>__manifest__.py</h2>
+      <p class="desc">A plain Python dictionary describing the module: its name, dependencies, and every data file to load, in order.</p>
+
+      <span class="code-label">my_first_module/__manifest__.py</span>
+      <pre><code>{
+    'name': 'My First Module',
+    'version': '18.0.1.0.0',
+    'category': 'Sales',
+    'summary': 'Short one-line summary shown in the Apps list',
+    'description': """
+        Longer description, can use RST/markdown-ish text.
+    """,
+    'author': 'Your Company',
+    'website': 'https://example.com',
+    'license': 'LGPL-3',
+
+    # other modules this one needs installed first
+    'depends': ['base', 'sale'],
+
+    # every XML/CSV file to load, IN ORDER (security before views that use it,
+    # views before menus that reference them)
+    'data': [
+        'security/my_model_security.xml',
+        'security/ir.model.access.csv',
+        'views/my_model_views.xml',
+        'views/my_model_menus.xml',
+        'report/my_report.xml',
+        'data/my_model_data.xml',
+    ],
+
+    # only loaded when running with --test-enable or demo data
+    'demo': [
+        'demo/my_model_demo.xml',
+    ],
+
+    # front-end assets (JS/SCSS/OWL templates)
+    'assets': {
+        'web.assets_backend': [
+            'my_first_module/static/src/js/my_widget.js',
+            'my_first_module/static/src/scss/my_style.scss',
+        ],
+    },
+
+    'installable': True,
+    'application': True,   # shows as a top-level "App", not just a module
+    'auto_install': False,
+}</code></pre>
+
+      <table>
+        <tr><th>key</th><th>meaning</th></tr>
+        <tr><td><code>version</code></td><td>Convention: <code>{odoo_version}.{module_version}</code>, e.g. <code>18.0.1.0.0</code>.</td></tr>
+        <tr><td><code>depends</code></td><td>List of module technical names that must be installed first — their models/views become available to yours.</td></tr>
+        <tr><td><code>data</code></td><td>Files always loaded on install/upgrade. <strong>Order matters</strong>: security and base records before the views/menus that depend on them.</td></tr>
+        <tr><td><code>demo</code></td><td>Sample data loaded only when demo data is enabled (useful for testing, not for production).</td></tr>
+        <tr><td><code>assets</code></td><td>Odoo 18 way of bundling JS/SCSS/XML front-end assets into named bundles like <code>web.assets_backend</code>.</td></tr>
+        <tr><td><code>application</code></td><td><code>True</code> makes it appear as its own icon on the Apps home screen rather than being a hidden technical module.</td></tr>
+      </table>
+    </section>
+
+    <!-- ================= MODELS ================= -->
+    <section class="doc" id="models">
+      <div class="sec-num">10 / MODULE ANATOMY</div>
+      <h2>Python models &amp; the ORM</h2>
+      <p class="desc">Models are Python classes mapped automatically to PostgreSQL tables by Odoo's ORM. You almost never write raw SQL.</p>
+
+      <h3>Creating a new model</h3>
+      <span class="code-label">models/my_model.py</span>
+      <pre><code>from odoo import api, fields, models
+
+
+class MyModel(models.Model):
+    _name = 'my.model'
+    _description = 'My Model'
+    _order = 'sequence, name'
+
+    name = fields.Char(string='Name', required=True)
+    sequence = fields.Integer(default=10)
+    active = fields.Boolean(default=True)
+    date_deadline = fields.Date()
+    amount = fields.Monetary(currency_field='currency_id')
+    currency_id = fields.Many2one('res.currency')
+    partner_id = fields.Many2one('res.partner', string='Customer')
+    line_ids = fields.One2many('my.model.line', 'model_id', string='Lines')
+    tag_ids = fields.Many2many('my.model.tag', string='Tags')
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('confirmed', 'Confirmed'),
+        ('done', 'Done'),
+    ], default='draft', tracking=True)
+
+    total = fields.Float(compute='_compute_total', store=True)
+
+    @api.depends('line_ids.subtotal')
+    def _compute_total(self):
+        for rec in self:
+            rec.total = sum(rec.line_ids.mapped('subtotal'))
+
+    def action_confirm(self):
+        self.write({'state': 'confirmed'})
+
+    @api.model
+    def create(self, vals):
+        # customise creation logic, then call super()
+        return super().create(vals)</code></pre>
+
+      <h3>Extending an existing model</h3>
+      <p>Use <code>_inherit</code> without <code>_name</code> to add fields/methods to a model that already exists (e.g. adding a field to <code>res.partner</code>):</p>
+      <span class="code-label">models/res_partner.py</span>
+      <pre><code>from odoo import fields, models
+
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    loyalty_points = fields.Integer(string='Loyalty Points', default=0)</code></pre>
+
+      <h3>Common field types</h3>
+      <table>
+        <tr><th>type</th><th>example</th></tr>
+        <tr><td>Char / Text</td><td><code>fields.Char()</code>, <code>fields.Text()</code></td></tr>
+        <tr><td>Integer / Float / Monetary</td><td><code>fields.Integer()</code>, <code>fields.Float(digits=(16,2))</code></td></tr>
+        <tr><td>Boolean</td><td><code>fields.Boolean(default=False)</code></td></tr>
+        <tr><td>Date / Datetime</td><td><code>fields.Date()</code>, <code>fields.Datetime()</code></td></tr>
+        <tr><td>Selection</td><td><code>fields.Selection([('a','A'),('b','B')])</code></td></tr>
+        <tr><td>Many2one</td><td><code>fields.Many2one('res.partner')</code> — a foreign key</td></tr>
+        <tr><td>One2many</td><td><code>fields.One2many('model.line', 'parent_id')</code> — reverse of a Many2one</td></tr>
+        <tr><td>Many2many</td><td><code>fields.Many2many('res.partner.category')</code> — join table</td></tr>
+        <tr><td>Binary / Image</td><td><code>fields.Binary()</code>, <code>fields.Image()</code></td></tr>
+      </table>
+
+      <h3>Useful decorators &amp; ORM methods</h3>
+      <table>
+        <tr><th>symbol</th><th>use</th></tr>
+        <tr><td><code>@api.depends(...)</code></td><td>Marks a compute method and its trigger fields.</td></tr>
+        <tr><td><code>@api.onchange(...)</code></td><td>Runs in the form view when a field changes, before saving (UI-only).</td></tr>
+        <tr><td><code>@api.constrains(...)</code></td><td>Python-level validation raised as <code>ValidationError</code> on save.</td></tr>
+        <tr><td><code>@api.model</code></td><td>Method doesn't need a specific recordset (e.g. <code>create</code> logic before the record exists).</td></tr>
+        <tr><td><code>self.env['model.name']</code></td><td>Access any model from anywhere via the environment.</td></tr>
+        <tr><td><code>search()</code>, <code>browse()</code>, <code>create()</code>, <code>write()</code>, <code>unlink()</code></td><td>Core CRUD operations on recordsets.</td></tr>
+      </table>
+    </section>
+
+    <!-- ================= VIEWS ================= -->
+    <section class="doc" id="views">
+      <div class="sec-num">11 / MODULE ANATOMY</div>
+      <h2>XML views</h2>
+      <p class="desc">Views declare how a model's records are displayed. All view records are stored in <code>ir.ui.view</code>. In Odoo 18 the list view type is written as <code>&lt;list&gt;</code> (the old <code>&lt;tree&gt;</code> tag still works but <code>list</code> is now the canonical name).</p>
+
+      <h3>Form view</h3>
+      <span class="code-label">views/my_model_views.xml</span>
+      <pre><code>&lt;odoo&gt;
+  &lt;record id="view_my_model_form" model="ir.ui.view"&gt;
+    &lt;field name="name"&gt;my.model.form&lt;/field&gt;
+    &lt;field name="model"&gt;my.model&lt;/field&gt;
+    &lt;field name="arch" type="xml"&gt;
+      &lt;form string="My Model"&gt;
+        &lt;header&gt;
+          &lt;button name="action_confirm" type="object"
+                  string="Confirm" class="btn-primary"
+                  invisible="state != 'draft'"/&gt;
+          &lt;field name="state" widget="statusbar"/&gt;
+        &lt;/header&gt;
+        &lt;sheet&gt;
+          &lt;group&gt;
+            &lt;field name="name"/&gt;
+            &lt;field name="partner_id"/&gt;
+            &lt;field name="date_deadline"/&gt;
+          &lt;/group&gt;
+          &lt;notebook&gt;
+            &lt;page string="Lines"&gt;
+              &lt;field name="line_ids"&gt;
+                &lt;list editable="bottom"&gt;
+                  &lt;field name="product_id"/&gt;
+                  &lt;field name="subtotal"/&gt;
+                &lt;/list&gt;
+              &lt;/field&gt;
+            &lt;/page&gt;
+          &lt;/notebook&gt;
+        &lt;/sheet&gt;
+      &lt;/form&gt;
+    &lt;/field&gt;
+  &lt;/record&gt;
+&lt;/odoo&gt;</code></pre>
+
+      <h3>List view (formerly "tree")</h3>
+      <pre><code>&lt;record id="view_my_model_list" model="ir.ui.view"&gt;
+  &lt;field name="name"&gt;my.model.list&lt;/field&gt;
+  &lt;field name="model"&gt;my.model&lt;/field&gt;
+  &lt;field name="arch" type="xml"&gt;
+    &lt;list decoration-danger="state == 'draft'"&gt;
+      &lt;field name="name"/&gt;
+      &lt;field name="partner_id"/&gt;
+      &lt;field name="total" sum="Total"/&gt;
+      &lt;field name="state"/&gt;
+    &lt;/list&gt;
+  &lt;/field&gt;
+&lt;/record&gt;</code></pre>
+
+      <h3>Search view</h3>
+      <pre><code>&lt;record id="view_my_model_search" model="ir.ui.view"&gt;
+  &lt;field name="name"&gt;my.model.search&lt;/field&gt;
+  &lt;field name="model"&gt;my.model&lt;/field&gt;
+  &lt;field name="arch" type="xml"&gt;
+    &lt;search&gt;
+      &lt;field name="name"/&gt;
+      &lt;field name="partner_id"/&gt;
+      &lt;filter string="Draft" name="filter_draft" domain="[('state','=','draft')]"/&gt;
+      &lt;group expand="0" string="Group By"&gt;
+        &lt;filter string="Customer" name="group_partner" context="{'group_by':'partner_id'}"/&gt;
+      &lt;/group&gt;
+    &lt;/search&gt;
+  &lt;/field&gt;
+&lt;/record&gt;</code></pre>
+
+      <h3>Kanban view (short example)</h3>
+      <pre><code>&lt;record id="view_my_model_kanban" model="ir.ui.view"&gt;
+  &lt;field name="name"&gt;my.model.kanban&lt;/field&gt;
+  &lt;field name="model"&gt;my.model&lt;/field&gt;
+  &lt;field name="arch" type="xml"&gt;
+    &lt;kanban&gt;
+      &lt;templates&gt;
+        &lt;t t-name="card"&gt;
+          &lt;div class="oe_kanban_card"&gt;
+            &lt;strong&gt;&lt;field name="name"/&gt;&lt;/strong&gt;
+            &lt;div&gt;&lt;field name="partner_id"/&gt;&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/t&gt;
+      &lt;/templates&gt;
+    &lt;/kanban&gt;
+  &lt;/field&gt;
+&lt;/record&gt;</code></pre>
+
+      <div class="note"><strong>invisible / readonly / required</strong>Since Odoo 17+, view attribute modifiers are written as plain Python-like expressions directly on the element, e.g. <code>invisible="state != 'draft'"</code>, rather than the older <code>attrs="{'invisible': [...]}"</code> dictionary syntax. Odoo 18 keeps this simplified syntax.</div>
+    </section>
+
+    <!-- ================= MENU & ACTIONS ================= -->
+    <section class="doc" id="menu-actions">
+      <div class="sec-num">12 / MODULE ANATOMY</div>
+      <h2>Menus &amp; window actions</h2>
+      <p class="desc">A menu item is just a clickable label; it does nothing by itself. It points to an <em>action</em> (usually <code>ir.actions.act_window</code>) which tells Odoo which model and which views to open.</p>
+
+      <span class="code-label">views/my_model_menus.xml</span>
+      <pre><code>&lt;odoo&gt;
+  &lt;!-- 1. the action: what to open --&gt;
+  &lt;record id="action_my_model" model="ir.actions.act_window"&gt;
+    &lt;field name="name"&gt;My Models&lt;/field&gt;
+    &lt;field name="res_model"&gt;my.model&lt;/field&gt;
+    &lt;field name="view_mode"&gt;list,form,kanban&lt;/field&gt;
+    &lt;field name="context"&gt;{'search_default_filter_draft': 1}&lt;/field&gt;
+    &lt;field name="help" type="html"&gt;
+      &lt;p class="o_view_nocontent_smiling_face"&gt;Create your first record&lt;/p&gt;
+    &lt;/field&gt;
+  &lt;/record&gt;
+
+  &lt;!-- 2. top-level (root) menu --&gt;
+  &lt;menuitem id="menu_my_module_root"
+            name="My Module"
+            sequence="10"
+            web_icon="my_first_module,static/description/icon.png"/&gt;
+
+  &lt;!-- 3. a category under the root --&gt;
+  &lt;menuitem id="menu_my_model_category"
+            name="Configuration"
+            parent="menu_my_module_root"
+            sequence="90"/&gt;
+
+  &lt;!-- 4. the clickable leaf menu, linked to the action --&gt;
+  &lt;menuitem id="menu_my_model"
+            name="My Models"
+            parent="menu_my_module_root"
+            action="action_my_model"
+            sequence="10"/&gt;
+&lt;/odoo&gt;</code></pre>
+
+      <table>
+        <tr><th>element</th><th>role</th></tr>
+        <tr><td><code>ir.actions.act_window</code></td><td>Opens a model with given views (list/form/kanban/...); optional default domain/context/filters.</td></tr>
+        <tr><td><code>&lt;menuitem&gt;</code> (root, no <code>action</code>)</td><td>A top-level app entry / folder — needs <code>web_icon</code> to appear on the Apps switcher.</td></tr>
+        <tr><td><code>&lt;menuitem&gt;</code> (with <code>action</code>)</td><td>A clickable leaf that actually opens something.</td></tr>
+        <tr><td><code>sequence</code></td><td>Controls left-to-right / top-to-bottom ordering among siblings.</td></tr>
+      </table>
+      <div class="warn"><strong>Load order matters</strong>The action must be defined <em>before</em> the menuitem that references it in the same file (top-to-bottom), and this XML file itself must appear after the security files in <code>__manifest__.py</code>'s <code>data</code> list.</div>
+    </section>
+
+    <!-- ================= SECURITY ================= -->
+    <section class="doc" id="security">
+      <div class="sec-num">13 / MODULE ANATOMY</div>
+      <h2>Security: groups, access rights, record rules</h2>
+      <p class="desc">Odoo security has three layers. Get comfortable with all three — a missing access line is the #1 error freshers hit ("You are not allowed to access...").</p>
+
+      <h3>1. Access rights — ir.model.access.csv</h3>
+      <p>One line per (model, group) pair defining CRUD permissions. Required for every model you create — without it, nobody (not even the admin) can use it.</p>
+      <span class="code-label">security/ir.model.access.csv</span>
+      <pre><code>id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_my_model_user,my.model.user,model_my_model,base.group_user,1,1,1,0
+access_my_model_manager,my.model.manager,model_my_model,my_first_module.group_my_model_manager,1,1,1,1</code></pre>
+      <table>
+        <tr><th>column</th><th>meaning</th></tr>
+        <tr><td><code>model_id:id</code></td><td>XML ID of the model, auto-generated as <code>model_&lt;model_name_with_underscores&gt;</code>, e.g. <code>my.model</code> → <code>model_my_model</code>.</td></tr>
+        <tr><td><code>group_id:id</code></td><td>The security group this row applies to; leave empty to apply to everyone (rare, avoid for real apps).</td></tr>
+        <tr><td><code>perm_read/write/create/unlink</code></td><td><code>1</code>/<code>0</code> flags — read, edit, create, delete respectively.</td></tr>
+      </table>
+
+      <h3>2. Security groups</h3>
+      <span class="code-label">security/my_model_security.xml</span>
+      <pre><code>&lt;odoo&gt;
+  &lt;record id="module_category_my_module" model="ir.module.category"&gt;
+    &lt;field name="name"&gt;My Module&lt;/field&gt;
+  &lt;/record&gt;
+
+  &lt;record id="group_my_model_user" model="res.groups"&gt;
+    &lt;field name="name"&gt;User&lt;/field&gt;
+    &lt;field name="category_id" ref="module_category_my_module"/&gt;
+  &lt;/record&gt;
+
+  &lt;record id="group_my_model_manager" model="res.groups"&gt;
+    &lt;field name="name"&gt;Manager&lt;/field&gt;
+    &lt;field name="category_id" ref="module_category_my_module"/&gt;
+    &lt;field name="implied_ids" eval="[(4, ref('group_my_model_user'))]"/&gt;
+  &lt;/record&gt;
+&lt;/odoo&gt;</code></pre>
+
+      <h3>3. Record rules (row-level security)</h3>
+      <p>Restrict <em>which rows</em> a group can see/edit, using a domain — e.g. "users can only see their own records":</p>
+      <pre><code>&lt;record id="rule_my_model_own_only" model="ir.rule"&gt;
+  &lt;field name="name"&gt;My Model: own records only&lt;/field&gt;
+  &lt;field name="model_id" ref="model_my_model"/&gt;
+  &lt;field name="domain_force"&gt;[('create_uid', '=', user.id)]&lt;/field&gt;
+  &lt;field name="groups" eval="[(4, ref('group_my_model_user'))]"/&gt;
+&lt;/record&gt;</code></pre>
+
+      <div class="note"><strong>Order of evaluation</strong>Access rights (CSV) decide <em>if</em> a user can touch the model at all (coarse, per-model). Record rules then filter <em>which rows</em> (fine, per-record). Both must allow an action for it to succeed.</div>
+    </section>
+
+    <!-- ================= QWEB REPORTS ================= -->
+    <section class="doc" id="qweb-reports">
+      <div class="sec-num">14 / MODULE ANATOMY</div>
+      <h2>QWeb reports (PDF/HTML)</h2>
+      <p class="desc">QWeb is Odoo's XML templating engine. Reports combine a QWeb template with an <code>ir.actions.report</code> record that hooks it to a "Print" button, and are rendered to PDF via wkhtmltopdf.</p>
+
+      <span class="code-label">report/my_report.xml — the template</span>
+      <pre><code>&lt;odoo&gt;
+  &lt;template id="report_my_model_document"&gt;
+    &lt;t t-call="web.html_container"&gt;
+      &lt;t t-foreach="docs" t-as="o"&gt;
+        &lt;t t-call="web.external_layout"&gt;
+          &lt;div class="page"&gt;
+            &lt;h2&gt;Document: &lt;span t-field="o.name"/&gt;&lt;/h2&gt;
+            &lt;p&gt;Customer: &lt;span t-field="o.partner_id.name"/&gt;&lt;/p&gt;
+            &lt;table class="table table-sm"&gt;
+              &lt;thead&gt;
+                &lt;tr&gt;&lt;th&gt;Product&lt;/th&gt;&lt;th&gt;Subtotal&lt;/th&gt;&lt;/tr&gt;
+              &lt;/thead&gt;
+              &lt;tbody&gt;
+                &lt;tr t-foreach="o.line_ids" t-as="line"&gt;
+                  &lt;td&gt;&lt;span t-field="line.product_id.name"/&gt;&lt;/td&gt;
+                  &lt;td&gt;&lt;span t-field="line.subtotal"/&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/tbody&gt;
+            &lt;/table&gt;
+            &lt;p&gt;Total: &lt;span t-field="o.total"/&gt;&lt;/p&gt;
+          &lt;/div&gt;
+        &lt;/t&gt;
+      &lt;/t&gt;
+    &lt;/t&gt;
+  &lt;/template&gt;
+&lt;/odoo&gt;</code></pre>
+
+      <span class="code-label">report/my_report_action.xml — the print action</span>
+      <pre><code>&lt;odoo&gt;
+  &lt;record id="action_report_my_model" model="ir.actions.report"&gt;
+    &lt;field name="name"&gt;My Model Document&lt;/field&gt;
+    &lt;field name="model"&gt;my.model&lt;/field&gt;
+    &lt;field name="report_type"&gt;qweb-pdf&lt;/field&gt;
+    &lt;field name="report_name"&gt;my_first_module.report_my_model_document&lt;/field&gt;
+    &lt;field name="report_file"&gt;my_first_module.report_my_model_document&lt;/field&gt;
+    &lt;field name="print_report_name"&gt;'Document - %s' % object.name&lt;/field&gt;
+    &lt;field name="binding_model_id" ref="model_my_model"/&gt;
+    &lt;field name="binding_type"&gt;report&lt;/field&gt;
+  &lt;/record&gt;
+&lt;/odoo&gt;</code></pre>
+
+      <table>
+        <tr><th>QWeb directive</th><th>use</th></tr>
+        <tr><td><code>t-foreach / t-as</code></td><td>Loop over a recordset.</td></tr>
+        <tr><td><code>t-field</code></td><td>Print a field with its correct widget/formatting (dates, currency...).</td></tr>
+        <tr><td><code>t-if / t-else</code></td><td>Conditional rendering.</td></tr>
+        <tr><td><code>t-esc</code></td><td>Print a raw Python expression, HTML-escaped.</td></tr>
+        <tr><td><code>web.external_layout</code></td><td>Standard header/footer (company logo, address) reused across reports.</td></tr>
+      </table>
+      <div class="note"><strong>binding_model_id + binding_type</strong>Setting these makes the report automatically appear under the record's <strong>Print</strong> menu — no extra button XML needed.</div>
+    </section>
+
+    <!-- ================= CONTROLLERS ================= -->
+    <section class="doc" id="controllers">
+      <div class="sec-num">15 / MODULE ANATOMY</div>
+      <h2>Controllers (custom web routes)</h2>
+      <p class="desc">Controllers expose plain HTTP endpoints outside the standard backend UI — useful for public pages, webhooks, custom JSON endpoints, or portal pages.</p>
+
+      <span class="code-label">controllers/main.py</span>
+      <pre><code>from odoo import http
+from odoo.http import request
+
+
+class MyModelController(http.Controller):
+
+    @http.route('/my_module/hello', type='http', auth='public', website=True)
+    def hello(self, **kwargs):
+        return request.render('my_first_module.hello_page_template', {
+            'message': 'Hello from a controller!',
+        })
+
+    @http.route('/my_module/api/records', type='json', auth='user')
+    def list_records(self, **kwargs):
+        records = request.env['my.model'].search_read(
+            [], ['id', 'name', 'total']
+        )
+        return {'records': records}
+
+    @http.route('/my_module/webhook', type='http', auth='public',
+                methods=['POST'], csrf=False)
+    def webhook(self, **post):
+        request.env['my.model'].sudo().create({'name': post.get('name')})
+        return 'ok'</code></pre>
+
+      <table>
+        <tr><th>route argument</th><th>meaning</th></tr>
+        <tr><td><code>type='http'</code></td><td>Returns a full HTTP response (HTML page, redirect, file).</td></tr>
+        <tr><td><code>type='json'</code></td><td>Returns JSON, matches Odoo's internal RPC calling convention.</td></tr>
+        <tr><td><code>auth='public'</code></td><td>No login required.</td></tr>
+        <tr><td><code>auth='user'</code></td><td>Requires an authenticated Odoo session.</td></tr>
+        <tr><td><code>website=True</code></td><td>Wraps the response in the Website module's header/footer.</td></tr>
+        <tr><td><code>csrf=False</code></td><td>Disables CSRF token check — needed for external webhooks that can't send Odoo's token.</td></tr>
+      </table>
+      <div class="warn"><strong>sudo() with care</strong>Use <code>.sudo()</code> to bypass access rights only when the endpoint's own <code>auth</code> level already establishes who is allowed to call it — never as a shortcut to skip writing proper security rules.</div>
+    </section>
+
+    <!-- ================= API ================= -->
+    <section class="doc" id="api">
+      <div class="sec-num">16 / MODULE ANATOMY</div>
+      <h2>External API (XML-RPC / JSON-RPC)</h2>
+      <p class="desc">Any external application (a script, another server, a mobile app) can talk to Odoo the same way the web client does — over XML-RPC or JSON-RPC — without installing anything on the Odoo side.</p>
+
+      <span class="code-label">python — external client example</span>
+      <pre><code>import xmlrpc.client
+
+url = 'http://localhost:8069'
+db = 'mydb'
+username = 'admin'
+password = 'admin'
+
+common = xmlrpc.client.ServerProxy(f'{url}/xmlrpc/2/common')
+uid = common.authenticate(db, username, password, {})
+
+models = xmlrpc.client.ServerProxy(f'{url}/xmlrpc/2/object')
+
+# search + read in one call
+records = models.execute_kw(
+    db, uid, password,
+    'my.model', 'search_read',
+    [[['state', '=', 'draft']]],
+    {'fields': ['name', 'partner_id', 'total'], 'limit': 20}
+)
+
+# create a record
+new_id = models.execute_kw(
+    db, uid, password,
+    'my.model', 'create',
+    [{'name': 'Created via API'}]
+)
+
+# call a custom method
+models.execute_kw(db, uid, password, 'my.model', 'action_confirm', [[new_id]])</code></pre>
+
+      <table>
+        <tr><th>endpoint</th><th>use</th></tr>
+        <tr><td><code>/xmlrpc/2/common</code></td><td>Authentication (<code>authenticate</code>, <code>version</code>).</td></tr>
+        <tr><td><code>/xmlrpc/2/object</code></td><td>Calls any model method via <code>execute_kw(db, uid, password, model, method, args, kwargs)</code>.</td></tr>
+        <tr><td><code>/jsonrpc</code></td><td>Same capabilities as XML-RPC, using JSON-RPC 2.0 — handy from JS/Node clients.</td></tr>
+      </table>
+      <div class="note"><strong>Same rules apply</strong>Every external API call still passes through the exact same access rights and record rules described in §13 — the API user's group memberships fully determine what it can read or write.</div>
+    </section>
+
+    <!-- ================= CHEATSHEET ================= -->
+    <section class="doc" id="cheatsheet">
+      <div class="sec-num">17 / REFERENCE</div>
+      <h2>CLI &amp; day-to-day cheatsheet</h2>
+      <div class="grid2">
+        <div>
+          <h4>Start / stop</h4>
+          <pre><code>./odoo-bin -c odoo.conf
+./odoo-bin -c odoo.conf -d mydb -u my_module
+./odoo-bin -c odoo.conf -d mydb -i my_module
+./odoo-bin -c odoo.conf --dev=all
+./odoo-bin -c odoo.conf --stop-after-init -u my_module</code></pre>
+        </div>
+        <div>
+          <h4>Flags</h4>
+          <table>
+            <tr><td><code>-u</code></td><td>upgrade a module</td></tr>
+            <tr><td><code>-i</code></td><td>install a module</td></tr>
+            <tr><td><code>-d</code></td><td>target database</td></tr>
+            <tr><td><code>--dev=all</code></td><td>auto-reload + qweb reload + better errors</td></tr>
+            <tr><td><code>--test-enable</code></td><td>run Python tests on install</td></tr>
+            <tr><td><code>--stop-after-init</code></td><td>run once then exit (good in CI)</td></tr>
+          </table>
+        </div>
+      </div>
+      <h4>Update apps list from the UI</h4>
+      <p>Enable Developer Mode (Settings → scroll to bottom → Activate the developer mode), then <strong>Apps → Update Apps List</strong> to make a new custom module appear before installing it.</p>
+    </section>
+
+    <!-- ================= TROUBLESHOOTING ================= -->
+    <section class="doc" id="troubleshoot">
+      <div class="sec-num">18 / REFERENCE</div>
+      <h2>Common errors for freshers</h2>
+      <table>
+        <tr><th>error</th><th>likely cause</th></tr>
+        <tr><td>Module not visible in Apps</td><td>Developer mode off, or "Update Apps List" not run after adding the folder to <code>addons_path</code>.</td></tr>
+        <tr><td>"You are not allowed to access..."</td><td>Missing/incorrect row in <code>ir.model.access.csv</code> for the user's group.</td></tr>
+        <tr><td>ParseError on module install</td><td>Malformed XML — check unclosed tags, or a menu/action referenced before it's defined earlier in the file.</td></tr>
+        <tr><td>KeyError on a field in a view</td><td>Field name typo, or the field is defined in a Python file not imported by <code>models/__init__.py</code>.</td></tr>
+        <tr><td>Changes not appearing after edit</td><td>Restart the server; for view/data XML changes run with <code>-u your_module</code>. Python model changes to structure (new fields) also need <code>-u</code>.</td></tr>
+        <tr><td>wkhtmltopdf report fails/blank PDF</td><td>Wrong wkhtmltopdf version installed — use the Odoo-patched <code>0.12.6</code> build, not the OS default.</td></tr>
+      </table>
+
+      <a class="back-top" href="#intro">↑ back to top</a>
+    </section>
+
+    <footer>
+      Odoo 18 Development Manual · community &amp; enterprise · built for learning module development
+    </footer>
+
+  </main>
+</div>
+
+</body>
+</html>
